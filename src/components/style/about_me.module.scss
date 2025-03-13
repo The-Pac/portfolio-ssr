@@ -1,0 +1,42 @@
+.about_me_container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin: 0 auto;
+  padding: 20px;
+  animation: fade-in 1s var(--ease-in-out-epic);
+  opacity: 1;
+  transform: translateY(0);
+
+  .me {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    aspect-ratio: 1;
+    overflow: hidden;
+  }
+
+  .quick_introduction_container {
+    font-size: var(--font-size-body-text);
+    margin-top: 20px;
+  }
+
+  .quick_introduction_container p {
+    margin-bottom: 1em
+  }
+
+
+  @media (min-width: 600px) {
+    .quick_introduction_container {
+      margin-top: 0;
+      margin-left: 20px;
+    }
+  }
+}
+
+@media (min-width: 600px) {
+  .about_me_container {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+}

@@ -1,0 +1,233 @@
+[
+  {
+    "id": 0,
+    "logo": "/static/logo/mdi/diploma-icon.svg",
+    "title": "Bac",
+    "year": 2019,
+    "parent_id": null
+  },
+  {
+    "id": 1,
+    "logo": "/static/logo/mdi/study-icon.svg",
+    "title": "BTS Systèmes Numériques Informatique et Réseaux",
+    "year": 2019,
+    "parent_id": 0
+  },
+  {
+    "id": 2,
+    "logo": "/static/logo/mdi/diploma-icon.svg",
+    "title": "Diplôme BTS Systèmes Numériques Informatique et Réseaux",
+    "year": 2021,
+    "parent_id": 1
+  },
+  {
+    "id": 3,
+    "logo": "/static/logo/programming_language/back_end/java-icon.svg",
+    "title": "Java",
+    "year": 2020,
+    "parent_id": 1
+  },
+  {
+    "id": 4,
+    "logo": "/static/logo/programming_language/back_end/php-icon.svg",
+    "title": "Php",
+    "year": 2020,
+    "parent_id": 1
+  },
+  {
+    "id": 5,
+    "logo": "/static/logo/programming_language/back_end/php-icon.svg",
+    "title": "Php",
+    "year": 2020,
+    "parent_id": 1
+  },
+  {
+    "id": 6,
+    "logo": "/static/logo/programming_language/back_end/nodejs-icon.svg",
+    "title": "Node.Js",
+    "year": 2020,
+    "parent_id": 1
+  },
+  {
+    "id": 7,
+    "logo": "/static/logo/programming_language/database/mysql-icon.svg",
+    "title": "Mysql",
+    "year": 2020,
+    "parent_id": 1
+  },
+  {
+    "id": 8,
+    "logo": "/static/logo/programming_language/front_end/html5-icon.svg",
+    "title": "Html",
+    "year": 2020,
+    "parent_id": 1
+  },
+  {
+    "id": 9,
+    "logo": "/static/logo/programming_language/front_end/css-icon.svg",
+    "title": "Css",
+    "year": 2020,
+    "parent_id": 1
+  },
+  {
+    "id": 10,
+    "logo": "/static/logo/programming_language/platform/windows-icon.svg",
+    "title": "Windows",
+    "year": 2019,
+    "parent_id": 1
+  },
+  {
+    "id": 11,
+    "logo": "/static/logo/programming_language/platform/linux-icon.svg",
+    "title": "Linux",
+    "year": 2019,
+    "parent_id": 1
+  },
+  {
+    "id": 12,
+    "logo": "/static/logo/company/technopli.png",
+    "title": "Technopli",
+    "year": 2020,
+    "parent_id": 1
+  },
+  {
+    "id": 13,
+    "logo": "/static/logo/company/irouicome.png",
+    "title": "Irouicome",
+    "year": 2022,
+    "parent_id": 11
+  },
+  {
+    "id": 14,
+    "logo": "/static/logo/programming_language/protocol/rest-api-icon.svg",
+    "title": "Rest Api",
+    "year": 2022,
+    "parent_id": 11
+  },
+  {
+    "id": 15,
+    "logo": "/static/logo/programming_language/back_end/laravel-icon.svg",
+    "title": "Laravel",
+    "year": 2022,
+    "parent_id": 11
+  },
+  {
+    "id": 16,
+    "logo": "/static/logo/programming_language/front_end/reactjs-icon.svg",
+    "title": "Laravel",
+    "year": 2022,
+    "parent_id": 11
+  },
+  {
+    "id": 17,
+    "logo": "/static/logo/programming_language/database/sqlite-icon.svg",
+    "title": "Sqlite",
+    "year": 2022,
+    "parent_id": 11
+  },
+  {
+    "id": 18,
+    "logo": "/static/logo/programming_language/back_end/tauri-icon.svg",
+    "title": "Tauri",
+    "year": 2022,
+    "parent_id": 11
+  },
+  {
+    "id": 19,
+    "logo": "/static/logo/programming_language/back_end/rust-icon.svg",
+    "title": "Rust",
+    "year": 2022,
+    "parent_id": 11
+  },
+  {
+    "id": 20,
+    "logo": "/static/logo/programming_language/front_end/vuejs-icon.svg",
+    "title": "Vue.Js",
+    "year": 2022,
+    "parent_id": 11
+  },
+  {
+    "id": 21,
+    "logo": "/static/logo/programming_language/front_end/javascript-icon.svg",
+    "title": "Javascript",
+    "year": 2022,
+    "parent_id": 11
+  },
+  {
+    "id": 22,
+    "logo": "/static/logo/programming_language/front_end/typescript-icon.svg",
+    "title": "Typescript",
+    "year": 2022,
+    "parent_id": 11
+  },
+  {
+    "id": 23,
+    "logo": "/static/logo/mdi/study-icon.svg",
+    "title": "Licence Informatique développement",
+    "year": 2021,
+    "parent_id": 0
+  },
+  {
+    "id": 24,
+    "logo": "/static/logo/mdi/diploma-icon.svg",
+    "title": "Diplôme Licence Informatique développement",
+    "year": 2022,
+    "parent_id": 11
+  },
+  {
+    "id": 24,
+    "logo": "/static/logo/company/astree_software.png",
+    "title": "Astrée software",
+    "year": 2023,
+    "parent_id": 22
+  },
+  {
+    "id": 25,
+    "logo": "/static/logo/programming_language/back_end/spring-icon.svg",
+    "title": "Spring",
+    "year": 2023,
+    "parent_id": 23
+  },
+  {
+    "id": 25,
+    "logo": "/static/logo/programming_language/front_end/angular-icon.svg",
+    "title": "Angular",
+    "year": 2023,
+    "parent_id": 23
+  },
+  {
+    "id": 26,
+    "logo": "/static/logo/programming_language/back_end/leptos-icon.svg",
+    "title": "Leptos",
+    "year": 2023,
+    "parent_id": 23
+  },
+  {
+    "id": 27,
+    "logo": "/static/logo/programming_language/database/postgresql-icon.svg",
+    "title": "Postgresql",
+    "year": 2023,
+    "parent_id": 23
+  },
+  {
+    "id": 28,
+    "logo": "/static/logo/programming_language/front_end/svelte-icon.svg",
+    "title": "Svelte",
+    "year": 2023,
+    "parent_id": 23
+  },
+  {
+    "id": 29,
+    "logo": "/static/logo/programming_language/back_end/axum-icon.svg",
+    "title": "Axum",
+    "year": 2023,
+    "parent_id": 23
+  },
+  {
+    "id": 30,
+    "logo": "/static/logo/programming_language/back_end/actix-icon.svg",
+    "title": "Actix",
+    "year": 2023,
+    "parent_id": 23
+  }
+]

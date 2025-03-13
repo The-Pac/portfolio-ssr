@@ -1,0 +1,51 @@
+.recommendation_container-5b23be9 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--secondary-background-color);
+  overflow-x: auto;
+  width: 100%;
+  margin-bottom: 2rem;
+  animation: fade-in 1s var(--ease-in-out-epic);
+  opacity: 1;
+  transform: translateY(0);
+
+
+  .logo_recommandation_container-5b23be9 {
+    display: flex;
+    align-items: center;
+
+    .logo-5b23be9 {
+      margin: 0 1rem;
+      filter: saturate(0);
+    }
+
+    .logo-5b23be9 {
+      height: 75px;
+
+      @media (min-width: 600px) {
+        height: 200px;
+      }
+    }
+
+    .recommendation-5b23be9 {
+
+      .card_author-5b23be9 {
+        margin-top: 1rem;
+      }
+    }
+  }
+
+
+}
+
+.recommendation_card-5b23be9 {
+  padding: 2rem;
+  border-radius: 0.5rem;
+  max-width: 400px;
+  width: 100%;
+
+  .card_author-5b23be9 {
+    margin-top: 1rem;
+  }
+}

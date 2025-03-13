@@ -1,0 +1,32 @@
+.intro_container {
+  height: 30dvh;
+  margin-top: 10dvh;
+  padding-left: 5vw;
+
+  b {
+    font-size: 3.5rem;
+    color: var(--third-color);
+    font-weight: 1000;
+    margin: 0;
+  }
+
+  .intro_line_1 {
+    font-size: 2.1rem;
+  }
+
+  .intro_line_2 {
+    font-size: 1.7rem;
+  }
+
+  .intro_line_3 {
+    font-size: 1.7rem;
+  }
+}
+
+@media (min-width: 600px) {
+  .intro_container {
+    height: 90dvh;
+    margin-top: 10dvh;
+    padding-left: 10vw;
+  }
+}

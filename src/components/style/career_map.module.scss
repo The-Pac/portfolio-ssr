@@ -1,0 +1,31 @@
+.career_map_container {
+  position: relative;
+  width: 100vw;
+  height: 75dvh;
+  z-index: 1;
+  animation: fade-in 1s var(--ease-in-out-epic);
+  opacity: 1;
+  transform: translateY(0);
+  overflow: hidden;
+
+  .career_map {
+    width: 3000px;
+    height: 4000px;
+    overflow: visible;
+    background-color: rgba(62, 62, 62, 0.5);
+    z-index: 0;
+    display: block;
+    margin: 0 auto;
+    cursor: grab;
+    position: absolute;
+    left: -1000px;
+    top: -500px;
+    transform: translate(0px, 0px) scale(1);
+    transition: transform 0.1s ease-out;
+    will-change: transform;
+
+    &:active {
+      cursor: grabbing;
+    }
+  }
+}
