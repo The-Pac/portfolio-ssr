@@ -1,11 +1,5 @@
 use leptos::prelude::*;
-
-#[derive(Clone)]
-struct StackStructure {
-    logo: Vec<&'static str>,
-    title: &'static str,
-    description: &'static str,
-}
+use crate::models::stack_structure::StackStructure;
 
 #[component]
 pub fn Stack() -> impl IntoView {
@@ -34,7 +28,8 @@ pub fn Stack() -> impl IntoView {
                 "protocol/websocket-icon.svg",
             ],
             title: "Protocole",
-            description: "Les règles qui permettent aux applications et sites de communiquer entre eux",
+            description:
+                "Les règles qui permettent aux applications et sites de communiquer entre eux",
         },
         StackStructure {
             logo: vec![
@@ -64,6 +59,14 @@ pub fn Stack() -> impl IntoView {
             logo: vec!["platform/linux-icon.svg", "platform/windows-icon.svg"],
             title: "Plateforme",
             description: "Les plateformes sont les systèmes qui exécutent les applications",
+        },
+        StackStructure {
+            logo: vec!["devops_and_infrastructure/github-icon.svg",
+                       "devops_and_infrastructure/gitlab-icon.svg",
+                       "devops_and_infrastructure/postman-icon.svg",
+                       "devops_and_infrastructure/jenkins-icon.svg",],
+            title: "DevOps & Infrastructure",
+            description: "Tout ce qui permet de déployer, faire tourner, automatiser et surveiller les applications en production",
         },
     ]);
 

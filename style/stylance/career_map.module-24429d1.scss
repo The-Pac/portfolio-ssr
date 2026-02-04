@@ -7,10 +7,12 @@
   opacity: 1;
   transform: translateY(0);
   overflow: hidden;
+  border-bottom: solid 25px var(--third-color);
+  border-top: solid 25px var(--third-color);
 
   .career_map-24429d1 {
-    width: 3000px;
-    height: 4000px;
+    width: 50000px;
+    height: 50000px;
     overflow: visible;
     background-color: rgba(62, 62, 62, 0.5);
     z-index: 0;
@@ -23,6 +25,8 @@
     transform: translate(0px, 0px) scale(1);
     transition: transform 0.1s ease-out;
     will-change: transform;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
 
     &:active {
       cursor: grabbing;

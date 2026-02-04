@@ -1,7 +1,13 @@
 .intro_container {
-  height: 30dvh;
-  margin-top: 10dvh;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
   padding-left: 5vw;
+  transition: min-height 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+
+  .intro_content {
+    width: 100%;
+  }
 
   b {
     font-size: 3.5rem;
@@ -12,21 +18,31 @@
 
   .intro_line_1 {
     font-size: 2.1rem;
+    margin: 0;
   }
 
   .intro_line_2 {
     font-size: 1.7rem;
+    margin: 0;
   }
 
   .intro_line_3 {
     font-size: 1.7rem;
+    margin: 0;
+  }
+
+  // État après scroll
+  &.scrolled {
+    min-height: 30dvh;
+
+    @media (min-width: 600px) {
+      min-height: 40dvh;
+    }
   }
 }
 
 @media (min-width: 600px) {
   .intro_container {
-    height: 90dvh;
-    margin-top: 10dvh;
     padding-left: 10vw;
   }
 }
