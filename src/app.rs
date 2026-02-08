@@ -1,40 +1,62 @@
 use crate::error_template::{AppError, ErrorTemplate};
 use leptos::prelude::*;
-use leptos_meta::{provide_meta_context, MetaTags, Style, Stylesheet, Title};
+use leptos_meta::{provide_meta_context, Link, MetaTags, Script, Style, Stylesheet, Title};
+use leptos_router::components::RoutingProgress;
 use leptos_router::{
     components::{Route, Router, Routes},
-    StaticSegment
+    StaticSegment,
 };
+use std::time::Duration;
 
 pub fn shell(options: LeptosOptions) -> impl IntoView {
     view! {
-            <!DOCTYPE html>
-            <html lang="en">
-                <head>
-                    <meta charset="utf-8"/>
-                    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-                    <AutoReload options=options.clone() />
-                    <HydrationScripts options/>
-                    <MetaTags/>
-                </head>
-                <body>
-                    <App/>
-                </body>
-            </html>
-        }
+        <!DOCTYPE html>
+        <html lang="fr">
+            <head>
+                <meta name="description" content="Portfolio de Baptiste Arsac - Jeune développeur Full \
+                Stack motivé basé à Montpellier. Créateur d'applications web modernes et sites sur mesure.\
+                 Disponible pour CDI,freelance ou création de votre projet digital. Explorez mes réalisations !"/>
+                <meta http_equiv="Content-Type" content="charset=utf-8"/>
+                <meta name="viewport" content="width=device-width, initial-scale=1"/>
+                <meta name="author" content="Arsac Baptiste"/>
+                <meta name="theme-color" content="#214f46"/>
+
+                <meta property="og:title" content="Portfolio – Arsac Baptiste"/>
+                <meta property="og:description" content="Développeur Full Stack à Montpellier, \
+                spécialisé en applications web modernes et sites sur mesure. Découvrez mes projets." />
+                <meta property="og:type" content="website"/>
+                <meta property="og:url" content="https://www.arsac-baptiste.dev"/>
+                <meta property="og:image" content="https://www.arsac-baptiste.dev/image/me.jpg"/>
+
+                <Link rel="icon" href="/favicon.ico" type_="image/x-icon"/>
+                <AutoReload options=options.clone() />
+                <HydrationScripts options/>
+                <MetaTags/>
+            </head>
+            <body>
+                <App/>
+            </body>
+        </html>
+    }
 }
 #[component]
 pub fn App() -> impl IntoView {
     stylance::import_style!(style, "app.module.scss");
     provide_meta_context();
 
+    let (is_routing, set_is_routing) = signal(false);
+
     view! {
         <Stylesheet id="leptos" href="/pkg/portfolio-ssr.css"/>
         <Style>{include_str!("critical.scss")}</Style>
+        <Script type_="module">{include_str!("web-vitals-init.js")}</Script>
 
         <Title text="Baptiste Portfolio"/>
 
-        <Router>
+        <Router set_is_routing>
+            <div class=style::routing_progress>
+                <RoutingProgress is_routing max_time=Duration::from_millis(250)/>
+            </div>
             <main class=style::main>
                 <Routes fallback=|| {
                     let mut outside_errors = Errors::default();
@@ -58,6 +80,7 @@ fn HomePage() -> impl IntoView {
     use crate::components::introduction::Introduction;
     use crate::components::recommendation::Recommendation;
     use crate::components::stack::Stack;
+    use crate::components::website_performance::WebsitePerformance;
     //use crate::components::stack::Project;
 
     view! {
@@ -66,6 +89,7 @@ fn HomePage() -> impl IntoView {
         <CareerMap/>
         <Stack/>
         /*<Project/>*/
+        <WebsitePerformance/>
         <Recommendation/>
         <ContactForm/>
     }

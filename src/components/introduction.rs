@@ -1,9 +1,9 @@
 use gloo_timers::future::sleep;
 use leptos::prelude::*;
 use leptos::task::spawn_local;
+use leptos::wasm_bindgen::JsCast;
 use rand::Rng;
 use std::time::Duration;
-use leptos::wasm_bindgen::JsCast;
 
 #[component]
 pub fn Introduction() -> impl IntoView {
@@ -11,6 +11,18 @@ pub fn Introduction() -> impl IntoView {
 
     let developper_types = vec!["Front-End.", "Back-End.", "Full-stack."];
     let hobbies = vec!["Motard.", "Joueur.", "Powerlifter.", "Plongeur."];
+    let social_medias: Vec<SocialMedia> = vec![
+        SocialMedia {
+            url: "https://github.com/The-Pac",
+            image: "/logo/programming_language/devops_and_infrastructure/github-icon.svg",
+            alt: "",
+        },
+        SocialMedia {
+            url: "https://fr.linkedin.com/in/baptiste-arsac",
+            image: "/logo/social_media/linkedin-icon.svg",
+            alt: "",
+        },
+    ];
 
     let developper_type_text = RwSignal::new(String::new());
     let hobbie_text = RwSignal::new(String::new());
@@ -41,28 +53,43 @@ pub fn Introduction() -> impl IntoView {
                 }
             }
         });
-    });
 
-    Effect::new(move |_| {
         let handle_scroll = move || {
             let scroll_y = window().scroll_y().unwrap_or(0.0);
             is_scrolled.set(scroll_y > 50.0);
         };
 
         let window = window();
-        let closure = leptos::wasm_bindgen::closure::Closure::wrap(Box::new(move |_: web_sys::Event| {
-            handle_scroll();
-        }) as Box<dyn FnMut(_)>);
+        let closure =
+            leptos::wasm_bindgen::closure::Closure::wrap(Box::new(move |_: web_sys::Event| {
+                handle_scroll();
+            }) as Box<dyn FnMut(_)>);
 
-        window.add_event_listener_with_callback("scroll", closure.as_ref().unchecked_ref()).ok();
+        window
+            .add_event_listener_with_callback("scroll", closure.as_ref().unchecked_ref())
+            .ok();
         closure.forget();
     });
+
 
     view! {
         <div
             class=style::intro_container
             class=(style::scrolled, move || is_scrolled.get())
         >
+            <div class=style::social_media_container>
+                {
+                    social_medias.into_iter()
+                    .map(|social_media |{
+                        view! {
+                            <a href=social_media.url>
+                                <img src=social_media.image alt=format!("Icône pour {}", social_media.alt)/>
+                            </a>
+                        }
+                    })
+                    .collect::<Vec<_>>()
+                }
+            </div>
             <div class=style::intro_content>
                 <b>"Salut,"</b>
                 <h1 class=style::intro_line_1>"Je suis Baptiste."</h1>
@@ -73,6 +100,12 @@ pub fn Introduction() -> impl IntoView {
             </div>
         </div>
     }
+}
+
+struct SocialMedia {
+    url: &'static str,
+    image: &'static str,
+    alt: &'static str,
 }
 
 async fn write_like_human(text: String, signal: RwSignal<String>) {

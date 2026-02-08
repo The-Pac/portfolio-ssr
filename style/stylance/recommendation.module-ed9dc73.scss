@@ -3,7 +3,8 @@
   width: 100%;
   background-color: var(--secondary-background-color);
   animation: fade-in 1s var(--ease-in-out-epic);
-  margin-bottom: 2rem;
+  margin-bottom: calc(3 * var(--magic-margin));
+  margin-top: calc(3 * var(--magic-margin));
 }
 
 .carousel_track-ed9dc73 {

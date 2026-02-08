@@ -5,3 +5,4 @@ pub mod introduction;
 pub mod project;
 pub mod recommendation;
 pub mod stack;
+pub(crate) mod website_performance;

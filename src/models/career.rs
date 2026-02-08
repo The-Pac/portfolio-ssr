@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 use indexmap::IndexMap;
-use leptos::leptos_dom::error;
+use leptos::logging::error;
 use leptos::prelude::ServerFnError;
 use leptos::server;
 use serde::{Deserialize, Serialize};
@@ -66,7 +66,7 @@ impl CareerNodeTree {
         }
     }
 
-    fn find_node_mut<'a>(node: &'a mut CareerNode, id: i32) -> Option<&'a mut CareerNode> {
+    fn find_node_mut(node: &mut CareerNode, id: i32) -> Option<&mut CareerNode> {
         if node.id == id {
             return Some(node);
         }

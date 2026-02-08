@@ -3,51 +3,56 @@ PRAGMA foreign_keys = ON;
 
 -- Insert logos
 INSERT INTO logo (id, path, name) VALUES
-                                      (1, '/static/logo/mdi/diploma-icon.svg', 'Diplôme'),
-                                      (2, '/static/logo/mdi/study-icon.svg', 'Étude'),
-                                      (3, '/static/logo/programming_language/front_end/angular-icon.svg', 'Angular'),
-                                      (4, '/static/logo/programming_language/front_end/javascript-icon.svg', 'JavaScript'),
-                                      (5, '/static/logo/programming_language/front_end/reactjs-icon.svg', 'React.Js'),
-                                      (6, '/static/logo/programming_language/front_end/sass-icon.svg', 'Sass'),
-                                      (7, '/static/logo/programming_language/front_end/svelte-icon.svg', 'Svelte'),
-                                      (8, '/static/logo/programming_language/front_end/typescript-icon.svg', 'TypeScript'),
-                                      (9, '/static/logo/programming_language/front_end/vuejs-icon.svg', 'Vue.js'),
-                                      (10, '/static/logo/programming_language/front_end/css-icon.svg', 'CSS'),
-                                      (11, '/static/logo/programming_language/front_end/html5-icon.svg', 'HTML5'),
-                                      (12, '/static/logo/programming_language/protocol/rest-api-icon.svg', 'REST API'),
-                                      (13, '/static/logo/programming_language/protocol/webrtc-icon.svg', 'WebRTC'),
-                                      (14, '/static/logo/programming_language/protocol/websocket-icon.svg', 'WebSocket'),
-                                      (15, '/static/logo/programming_language/database/mysql-icon.svg', 'MySQL'),
-                                      (16, '/static/logo/programming_language/database/postgresql-icon.svg', 'PostgreSQL'),
-                                      (17, '/static/logo/programming_language/database/sqlite-icon.svg', 'SQLite'),
-                                      (18, '/static/logo/programming_language/back_end/java-icon.svg', 'Java'),
-                                      (19, '/static/logo/programming_language/back_end/laravel-icon.svg', 'Laravel'),
-                                      (20, '/static/logo/programming_language/back_end/leptos-icon.svg', 'Leptos'),
-                                      (21, '/static/logo/programming_language/back_end/lua-icon.svg', 'Lua'),
-                                      (22, '/static/logo/programming_language/back_end/nodejs-icon.svg', 'Node.js'),
-                                      (23, '/static/logo/programming_language/back_end/php-icon.svg', 'PHP'),
-                                      (24, '/static/logo/programming_language/back_end/rust-icon.svg', 'Rust'),
-                                      (25, '/static/logo/programming_language/back_end/spring-icon.svg', 'Spring'),
-                                      (26, '/static/logo/programming_language/back_end/tauri-icon.svg', 'Tauri'),
-                                      (27, '/static/logo/programming_language/platform/linux-icon.svg', 'Linux'),
-                                      (28, '/static/logo/programming_language/platform/windows-icon.svg', 'Windows'),
-                                      (29, '/static/logo/programming_language/back_end/actix-icon.svg', 'Actix'),
-                                      (30, '/static/logo/programming_language/back_end/axum-icon.svg', 'Axum'),
-                                      (31, '/static/logo/company/technopli.png', 'Technopli'),
-                                      (32, '/static/logo/company/irouicome.png', 'IrOuiCome'),
-                                      (33, '/static/logo/company/astree_software.png', 'Astrée Software'),
-                                      (34, '/static/logo/mdi/location-icon.svg', 'Location'),
-                                      (35, '/static/logo/programming_language/librairy/argon2.png', 'Argon2'),
-                                      (36, '/static/logo/programming_language/librairy/barrel.png', 'Barrel'),
-                                      (37, '/static/logo/programming_language/librairy/bevy.svg', 'Bevy'),
-                                      (38, '/static/logo/programming_language/tool/biomejs.svg', 'Biome.Js'),
-                                      (39, '/static/logo/mdi/no-logo.svg', 'No logo'),
-                                      (40, '/static/logo/programming_language/front_end/qwik.svg', 'Qwik'),
-                                      (41, '/static/logo/programming_language/librairy/refinery.svg', 'Refinery'),
-                                      (42, '/static/logo/programming_language/librairy/tokio.svg', 'Tokio'),
-                                      (43, '/static/logo/programming_language/librairy/tracing.png', 'Tracing'),
-                                      (44, '/static/logo/programming_language/librairy/threejs.svg', 'Three.Js'),
-                                      (45, '/static/logo/programming_language/librairy/serde.png', 'Serde');
+                                      (1, 'logo/mdi/diploma-icon.svg', 'Diplôme'),
+                                      (2, 'logo/mdi/study-icon.svg', 'Étude'),
+                                      (3, 'logo/programming_language/front_end/angular-icon.svg', 'Angular'),
+                                      (4, 'logo/programming_language/front_end/javascript-icon.svg', 'JavaScript'),
+                                      (5, 'logo/programming_language/front_end/reactjs-icon.svg', 'React.Js'),
+                                      (6, 'logo/programming_language/front_end/sass-icon.svg', 'Sass'),
+                                      (7, 'logo/programming_language/front_end/svelte-icon.svg', 'Svelte'),
+                                      (8, 'logo/programming_language/front_end/typescript-icon.svg', 'TypeScript'),
+                                      (9, 'logo/programming_language/front_end/vuejs-icon.svg', 'Vue.js'),
+                                      (10, 'logo/programming_language/front_end/css-icon.svg', 'CSS'),
+                                      (11, 'logo/programming_language/front_end/html5-icon.svg', 'HTML5'),
+                                      (12, 'logo/programming_language/protocol/rest-api-icon.svg', 'REST API'),
+                                      (13, 'logo/programming_language/protocol/webrtc-icon.svg', 'WebRTC'),
+                                      (14, 'logo/programming_language/protocol/websocket-icon.svg', 'WebSocket'),
+                                      (15, 'logo/programming_language/database/mysql-icon.svg', 'MySQL'),
+                                      (16, 'logo/programming_language/database/postgresql-icon.svg', 'PostgreSQL'),
+                                      (17, 'logo/programming_language/database/sqlite-icon.svg', 'SQLite'),
+                                      (18, 'logo/programming_language/back_end/java-icon.svg', 'Java'),
+                                      (19, 'logo/programming_language/back_end/laravel-icon.svg', 'Laravel'),
+                                      (20, 'logo/programming_language/back_end/leptos-icon.svg', 'Leptos'),
+                                      (21, 'logo/programming_language/back_end/lua-icon.svg', 'Lua'),
+                                      (22, 'logo/programming_language/back_end/nodejs-icon.svg', 'Node.js'),
+                                      (23, 'logo/programming_language/back_end/php-icon.svg', 'PHP'),
+                                      (24, 'logo/programming_language/back_end/rust-icon.svg', 'Rust'),
+                                      (25, 'logo/programming_language/back_end/spring-icon.svg', 'Spring'),
+                                      (26, 'logo/programming_language/back_end/tauri-icon.svg', 'Tauri'),
+                                      (27, 'logo/programming_language/platform/linux-icon.svg', 'Linux'),
+                                      (28, 'logo/programming_language/platform/windows-icon.svg', 'Windows'),
+                                      (29, 'logo/programming_language/back_end/actix-icon.svg', 'Actix'),
+                                      (30, 'logo/programming_language/back_end/axum-icon.svg', 'Axum'),
+                                      (31, 'logo/company/technopli.png', 'Technopli'),
+                                      (32, 'logo/company/irouicome.png', 'IrOuiCome'),
+                                      (33, 'logo/company/astree_software.png', 'Astrée Software'),
+                                      (34, 'logo/mdi/location-icon.svg', 'Location'),
+                                      (35, 'logo/programming_language/librairy/argon2.png', 'Argon2'),
+                                      (36, 'logo/programming_language/librairy/barrel.png', 'Barrel'),
+                                      (37, 'logo/programming_language/librairy/bevy.svg', 'Bevy'),
+                                      (38, 'logo/programming_language/tool/biomejs.svg', 'Biome.Js'),
+                                      (39, 'logo/mdi/no-logo.svg', 'No logo'),
+                                      (40, 'logo/programming_language/front_end/qwik.svg', 'Qwik'),
+                                      (41, 'logo/programming_language/librairy/refinery.svg', 'Refinery'),
+                                      (42, 'logo/programming_language/librairy/tokio.svg', 'Tokio'),
+                                      (43, 'logo/programming_language/librairy/tracing.png', 'Tracing'),
+                                      (44, 'logo/programming_language/librairy/threejs.svg', 'Three.Js'),
+                                      (45, 'logo/programming_language/librairy/serde.png', 'Serde'),
+                                      (46, 'logo/programming_language/devops_and_infrastructure/github-icon.svg', 'Github'),
+                                      (47, 'logo/programming_language/devops_and_infrastructure/gitlab-icon.svg', 'Gitlab'),
+                                      (48, 'logo/programming_language/devops_and_infrastructure/jenkins-icon.svg', 'Jenkins'),
+                                      (49, 'logo/programming_language/devops_and_infrastructure/postman-icon.svg', 'Postman')
+;
 
 -- Insert technology categories
 INSERT INTO technology_category (id, title, description) VALUES
@@ -57,7 +62,7 @@ INSERT INTO technology_category (id, title, description) VALUES
                                                              (4, 'Back-End', 'Le back-end gère les données et le fonctionnement en arrière-plan'),
                                                              (5, 'Plateforme', 'Les plateformes sont les systèmes qui exécutent les applications'),
                                                              (6, 'Librairies', 'Ajoute des fonctionnalités prêtes à l''emploi pour simplifier le développement'),
-                                                             (7, 'Outils', 'Automatise certaines tâches pour améliorer le code ou le projet');
+                                                             (7, 'DevOps & Infrastructure', 'Tout ce qui permet de déployer, faire tourner, automatiser et surveiller les applications en production');
 
 -- Insert technologies
 INSERT INTO technology (id, name, technology_category_id, logo_id) VALUES
@@ -104,7 +109,8 @@ INSERT INTO technology (id, name, technology_category_id, logo_id) VALUES
                                                                        (41, 'Log', 6, 39),
                                                                        (42, 'Serde', 6, 45),
                                                                        (43, 'Thiserror', 6, 39),
-                                                                       (44, 'Tower', 6, 39);
+                                                                       (44, 'Tower', 6, 39)
+;
 
 -- Insert project statuses
 INSERT INTO project_status (id, name) VALUES
@@ -154,4 +160,16 @@ INSERT INTO careers (id, title, year, parent_id, technology_id, logo_id) VALUES
                                                                              (31, 'Axum', 2023, 25, 28, NULL),
                                                                              (32, 'Actix', 2023, 25, 27, NULL),
                                                                              (28, 'Leptos', 2024, 33, 18, NULL),
-                                                                             (33, 'Now', 2024, 25, NULL, 34);
+                                                                             (33, 'Now', 2024, 25, NULL, 34),
+                                                                             (34, 'Enerdis Memo4', 2020, 4, NULL, 46),
+                                                                             (35, 'Commande SAV', 2020, 4, NULL, 46),
+                                                                             (36, 'Portfolio SSR', 2026, 28, NULL, 46),
+                                                                             (37, 'Utopac', 2025, 19, NULL, 46),
+                                                                             (38, 'R6 sound visualization', 2025, 19, NULL, 46),
+                                                                             (39, 'Pac Gif', 2025, 19, NULL, 46),
+                                                                             (40, 'The search letter', 2022, 19, NULL, 46),
+                                                                             (41, 'Peeper', 2022, 20, NULL, 46),
+                                                                             (42, 'Superviseur', 2022, 4, NULL, 46),
+                                                                             (43, 'Chatbox IRC', 2022, 4, NULL, 46),
+                                                                             (44, 'Pac car companion', 2025, 19, NULL, 46)
+;

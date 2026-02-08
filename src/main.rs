@@ -1,7 +1,5 @@
-use axum::routing::get_service;
-use http::StatusCode;
-use tower_http::services::ServeDir;
-use portfolio_ssr::libs::database::{init_database};
+use std::path::PathBuf;
+use portfolio_ssr::libs::database::init_database;
 
 #[cfg(feature = "ssr")]
 #[tokio::main]
@@ -12,7 +10,9 @@ async fn main() {
     use leptos_axum::{generate_route_list, LeptosRoutes};
     use portfolio_ssr::app::*;
 
-    init_database().await.expect("problem during initialization of the database");
+    init_database()
+        .await
+        .expect("problem during initialization of the database");
 
     let conf = get_configuration(None).unwrap();
     let addr = conf.leptos_options.site_addr;
@@ -24,17 +24,41 @@ async fn main() {
             let leptos_options = leptos_options.clone();
             move || shell(leptos_options.clone())
         })
-        .nest_service(
-            "/static",
-            get_service(ServeDir::new("./public"))
-                .handle_error(|_| async { StatusCode::INTERNAL_SERVER_ERROR }),
-        )
         .fallback(leptos_axum::file_and_error_handler(shell))
         .with_state(leptos_options);
 
-    log!("listening on http://{}", &addr);
-    let listener = tokio::net::TcpListener::bind(&addr).await.unwrap();
-    axum::serve(listener, app.into_make_service())
-        .await
-        .unwrap();
+    let use_tls = std::env::var("USE_TLS")
+        .unwrap_or_else(|_| "false".to_string()) == "true";
+
+    if use_tls {
+        use axum_server::tls_rustls::RustlsConfig;
+
+        let cert_path = std::env::var("TLS_CERT_PATH")
+            .expect("TLS_CERT_PATH not found");
+        let key_path = std::env::var("TLS_KEY_PATH")
+            .expect("TLS_KEY_PATH not found");
+
+        let tls_config = RustlsConfig::from_pem_file(
+            PathBuf::from(cert_path),
+            PathBuf::from(key_path),
+        )
+            .await
+            .expect("failed to open TLS certificats ");
+
+        println!("listening on https://{}", addr);
+        axum_server::bind_rustls(addr, tls_config)
+            .serve(app.into_make_service())
+            .await
+            .unwrap();
+    } else {
+        log!("listening on http://{}", &addr);
+        let listener = tokio::net::TcpListener::bind(&addr).await.unwrap();
+        axum::serve(listener, app.into_make_service())
+            .await
+            .unwrap();
+    }
+}
+#[cfg(not(feature = "ssr"))]
+pub fn main() {
+
 }

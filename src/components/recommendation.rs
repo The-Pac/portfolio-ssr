@@ -8,22 +8,19 @@ pub fn Recommendation() -> impl IntoView {
 
     let recommandations = [
         Recommandation {
-            id: 1,
-            src: "/static/logo/company/technopli.png",
+            src: "logo/company/technopli.png",
             author: "Technopli",
-            recommendation: Some("Great company to work with!"),
+            texte: Some("Great company to work with!"),
         },
         Recommandation {
-            id: 2,
-            src: "/static/logo/company/irouicome.png",
+            src: "logo/company/irouicome.png",
             author: "Irouicome",
-            recommendation: Some("Reliable and professional service."),
+            texte: Some("Reliable and professional service."),
         },
         Recommandation {
-            id: 3,
-            src: "/static/logo/company/astree_software.png",
+            src: "logo/company/astree_software.png",
             author: "Astree Software",
-            recommendation: None,
+            texte: None,
         },
     ];
 
@@ -65,10 +62,10 @@ pub fn Recommendation() -> impl IntoView {
         <div class=style::recommendation_wrapper on:wheel=on_wheel>
             <div class=style::carousel_track>
                 {
-                    recommandations.iter().enumerate().map(|(idx, reco)| {
-                        let logo_src = reco.src;
-                        let logo_author = reco.author;
-                        let logo_recommendation = reco.recommendation;
+                    recommandations.iter().enumerate().map(|(idx, recommendation)| {
+                        let logo_src = recommendation.src;
+                        let author = recommendation.author;
+                        let text = recommendation.texte;
 
                         let offset = move || {
                             let current = current_index.get() as i32;
@@ -97,15 +94,15 @@ pub fn Recommendation() -> impl IntoView {
                                 style:z-index=move || (100 - offset().abs()).to_string()
                             >
                                 <div class=style::item_content>
-                                    <img src=logo_src alt=logo_author class=style::logo />
+                                    <img src=logo_src alt=author class=style::logo />
                                     {
                                         move || {
                                             if is_selected() {
-                                                if let Some(text) = logo_recommendation {
+                                                if let Some(text) = text {
                                                     view! {
                                                         <div class=style::recommendation>
                                                             <p>{text}</p>
-                                                            <h3 class=style::card_author>{logo_author}</h3>
+                                                            <h3 class=style::card_author>{author}</h3>
                                                         </div>
                                                     }.into_any()
                                                 } else {

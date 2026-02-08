@@ -64,7 +64,7 @@ pub fn Stack() -> impl IntoView {
             logo: vec!["devops_and_infrastructure/github-icon.svg",
                        "devops_and_infrastructure/gitlab-icon.svg",
                        "devops_and_infrastructure/postman-icon.svg",
-                       "devops_and_infrastructure/jenkins-icon.svg",],
+                       "devops_and_infrastructure/jenkins-icon.svg"],
             title: "DevOps & Infrastructure",
             description: "Tout ce qui permet de déployer, faire tourner, automatiser et surveiller les applications en production",
         },
@@ -103,7 +103,7 @@ fn StackCard(stack: StackStructure) -> impl IntoView {
                         stack.logo.into_iter()
                         .map(|logo |{
                             view! {
-                                <img src=format!("/static/logo/programming_language/{}",logo) alt=format!("Icône pour {}", logo)/>
+                                <img src=format!("/logo/programming_language/{}",logo) alt=format!("Icône pour {}", logo)/>
                             }
                         })
                         .collect::<Vec<_>>()

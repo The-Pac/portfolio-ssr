@@ -1,0 +1,105 @@
+.title {
+  text-align: center;
+  animation: fade-in 1s var(--ease-in-out-epic);
+  opacity: 1;
+  transform: translateY(0);
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.container {
+  max-width: 800px;
+  margin: var(--magic-margin) auto;
+  padding: var(--magic-margin);
+}
+
+.story {
+  color: var(--secondary-color);
+  line-height: 1.8;
+}
+
+.intro {
+  font-size: calc(1.2 * var(--font-size-body));
+  margin-bottom: calc(2 * var(--magic-margin));
+}
+
+.narrative {
+  margin: calc(2 * var(--magic-margin)) 0;
+  position: relative;
+  padding-left: calc(1.5 * var(--magic-margin));
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--green-gradiant);
+    border-radius: 2px;
+  }
+}
+
+.highlight {
+  color: var(--third-color);
+  font-weight: 600;
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--primary-color);
+    opacity: 0.4;
+  }
+}
+
+.tech {
+  color: var(--third-color);
+  font-style: italic;
+}
+
+
+.tech_badge {
+  margin-top: calc(3 * var(--magic-margin));
+  padding: calc(0.5 * var(--magic-margin));
+  background: var(--green-gradiant);
+  border-radius: 10px;
+  text-align: center;
+}
+
+.badge_label {
+  display: block;
+  color: var(--primary-color);
+  font-size: calc(1.1 * var(--font-size-body));
+  letter-spacing: 1px;
+}
+
+.badge_stack {
+  display: flex;
+  justify-content: center;
+
+  span {
+    margin-right: var(--magic-margin);
+    color: var(--primary-background-color);
+    font-size: var(--font-size-body);
+  }
+}
+
+@media (max-width: 600px) {
+  .intro {
+    font-size: var(--font-size-body-mobile);
+  }
+
+  .narrative {
+    padding-left: var(--magic-margin);
+  }
+
+  .badge_stack {
+    font-size: var(--font-size-subheading-mobile);
+  }
+}
