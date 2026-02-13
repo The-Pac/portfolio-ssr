@@ -14,7 +14,7 @@ pub struct ContactForm {
 }
 #[component]
 pub fn ContactForm() -> impl IntoView {
-    stylance::import_style!(style, "style/contact_form.module.scss");
+    stylance::import_style!(style, "style/contact.module.scss");
 
     let name = RwSignal::new("".to_string());
     let surname = RwSignal::new("".to_string());
@@ -67,54 +67,58 @@ pub fn ContactForm() -> impl IntoView {
     });
 
     view! {
-        <form class=style::contact_form_container on:submit=on_submit>
-            <input
-                id=0
-                placeholder="Nom"
-                class=style::name_input
-                type="text"
-                bind:value=name
-                required=true
-            />
+        <section class=style::contact>
+            <h2 class=style::contact_title>Contactez-moi</h2>
+            <form class=style::contact_form on:submit=on_submit>
+                <input
+                    id=0
+                    placeholder="Nom"
+                    class=style::contact_form_name_input
+                    type="text"
+                    bind:value=name
+                    required=true
+                />
 
-            <input
-                id=1
-                placeholder="Prénom"
-                class=style::surname_input
-                type="text"
-                bind:value=surname
-                required=true
-            />
+                <input
+                    id=1
+                    placeholder="Prénom"
+                    class=style::contact_form_surname_input
+                    type="text"
+                    bind:value=surname
+                    required=true
+                />
 
-            <input
-                id=2
-                placeholder="Email"
-                class=style::email_input
-                type="email"
-                bind:value=email
-                required=true
-            />
+                <input
+                    id=2
+                    placeholder="Email"
+                    class=style::contact_form_email_input
+                    type="email"
+                    bind:value=email
+                    required=true
+                />
 
-            <input
-                id=3
-                placeholder="Entreprise"
-                class=style::company_input
-                type="text"
-                bind:value=company
-                required=false
-            />
+                <input
+                    id=3
+                    placeholder="Entreprise"
+                    class=style::contact_form_company_input
+                    type="text"
+                    bind:value=company
+                    required=false
+                />
 
-            <textarea
-                placeholder="Dites-moi comment je peux vous être utile !"
-                class=style::message_textarea
-                bind:value=message
-                required=true>
-            </textarea>
+                <textarea
+                    id=4
+                    placeholder="Dites-moi comment je peux vous être utile !"
+                    class=style::contact_form_message_textarea
+                    bind:value=message
+                    required=true>
+                </textarea>
 
-            <button type="submit" class=style::send_button>
-                <b>"Envoyer"</b>
-            </button>
-        </form>
+                <button id=5 type="submit" class=style::contact_form_send_button>
+                    <b>"Envoyer"</b>
+                </button>
+            </form>
+        </section>
     }
 }
 

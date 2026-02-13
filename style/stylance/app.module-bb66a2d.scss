@@ -3,3 +3,10 @@
   height: 10px;
   width: 100%;
 }
+
+.separator-bb66a2d{
+  margin: var(--magic-margin) 0;
+  border: none;
+  height: 3px;
+  background: linear-gradient(to left, transparent, var(--primary-color), transparent);
+}

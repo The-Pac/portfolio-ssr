@@ -1,12 +1,11 @@
 use crate::models::database_error::{ModelError, TechnologyError};
 use crate::models::technology::{TechnologyCategory, TechnologyRow, TechnologyWithLogo};
-use leptos::server;
+use sqlx::SqlitePool;
 use std::collections::HashMap;
 
-#[server]
-pub async fn get_all_technologies() -> Result<Vec<TechnologyWithLogo>, TechnologyError> {
-    let connection = crate::libs::database::get_database();
-
+pub async fn get_all_technologies(
+    connection_database: &SqlitePool,
+) -> Result<Vec<TechnologyWithLogo>, TechnologyError> {
     let technologies = sqlx::query_as::<_, TechnologyRow>(
         r#"
         SELECT
@@ -21,7 +20,7 @@ pub async fn get_all_technologies() -> Result<Vec<TechnologyWithLogo>, Technolog
         ORDER BY tc.title, t.name
         "#,
     )
-    .fetch_all(connection)
+    .fetch_all(connection_database)
     .await
     .map_err(|e| ModelError::DatabaseError(e.into()))?;
 
@@ -37,11 +36,9 @@ pub async fn get_all_technologies() -> Result<Vec<TechnologyWithLogo>, Technolog
         .collect())
 }
 
-#[server]
 pub async fn get_technologies_by_category(
+    connection_database: &SqlitePool,
 ) -> Result<HashMap<String, Vec<TechnologyWithLogo>>, TechnologyError> {
-    let connection = crate::libs::database::get_database();
-
     let technologies = sqlx::query_as::<_, TechnologyRow>(
         r#"
         SELECT
@@ -56,7 +53,7 @@ pub async fn get_technologies_by_category(
         ORDER BY tc.title, t.name
         "#,
     )
-    .fetch_all(connection)
+    .fetch_all(connection_database)
     .await
     .map_err(|e| ModelError::DatabaseError(e.into()))?;
 
@@ -79,10 +76,9 @@ pub async fn get_technologies_by_category(
     Ok(grouped)
 }
 
-#[server]
-pub async fn get_all_technology_categories() -> Result<Vec<TechnologyCategory>, TechnologyError> {
-    let connection = crate::libs::database::get_database();
-
+pub async fn get_all_technology_categories(
+    connection_database: &SqlitePool,
+) -> Result<Vec<TechnologyCategory>, TechnologyError> {
     let categories = sqlx::query_as::<_, TechnologyCategory>(
         r#"
         SELECT id, title, description
@@ -90,7 +86,7 @@ pub async fn get_all_technology_categories() -> Result<Vec<TechnologyCategory>, 
         ORDER BY title
         "#,
     )
-    .fetch_all(connection)
+    .fetch_all(connection_database)
     .await
     .map_err(|e| ModelError::DatabaseError(e.into()))?;
 

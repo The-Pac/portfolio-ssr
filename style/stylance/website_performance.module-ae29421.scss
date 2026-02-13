@@ -1,5 +1,4 @@
 .website_performance-ae29421 {
-  max-width: 800px;
   padding: var(--magic-margin);
   width: 50%;
   display: flex;
@@ -109,16 +108,26 @@
         }
       }
     }
-
-
   }
 }
 
 @media (max-width: 600px) {
   .website_performance-ae29421 {
     width: 100%;
+
+    &::after {
+      display: none;
+    }
+
+    .website_performance_story-ae29421 {
+      flex-direction: column;
+
+      .website_performance_tech_badge-ae29421 {
+        padding: var(--magic-margin) !important;
+        width: 100% !important;
+        margin: var(--magic-margin) !important;
+      }
+    }
   }
-  .website_performance_story-ae29421 {
-    flex-direction: column;
-  }
+
 }

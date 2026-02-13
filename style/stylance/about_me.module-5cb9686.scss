@@ -29,7 +29,7 @@
     border-radius: 15px;
   }
 
-.introduction-5cb9686{
+  .introduction-5cb9686{
   margin-left: var(--magic-margin);
 
   .introduction_tag-5cb9686 {
@@ -88,10 +88,33 @@
 }
 
 
-@media (min-width: 600px) {
+@media (max-width: 600px) {
   .about_me-5cb9686 {
-    flex-direction: row;
-    align-items: flex-start;
+    width: 100%;
+
+    &::after {
+      bottom: 0!important;
+      height: 3px!important;
+      width: 80%!important;
+      top: auto!important;
+      right: auto!important;
+    }
+
+    .about_me_img-5cb9686 {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1;
+      overflow: hidden;
+      border-radius: 15px;
+    }
+
+    .introduction-5cb9686{
+      margin-left: var(--magic-margin);
+
+      .introduction_tag-5cb9686 {
+        margin-bottom:var(--magic-margin);
+      }
+    }
   }
 }
 

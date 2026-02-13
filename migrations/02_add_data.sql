@@ -54,7 +54,7 @@ VALUES (1, 'logo/mdi/diploma-icon.svg', 'Diplôme'),
 INSERT INTO technology_category (id, title, description)
 VALUES (1, 'Front-End', 'Ce que l''utilisateur voit et avec quoi il interagit sur un site'),
        (2, 'Protocole', 'Les règles qui permettent aux applications et sites de communiquer entre eux'),
-       (3, 'Base de donnée', 'Gestion et stockage des données d''une application ou d''un site web'),
+       (3, 'Base de donnéèe', 'Gestion et stockage des données d''une application ou d''un site web'),
        (4, 'Back-End', 'Le back-end gère les données et le fonctionnement en arrière-plan'),
        (5, 'Plateforme', 'Les plateformes sont les systèmes qui exécutent les applications'),
        (6, 'Librairies', 'Ajoute des fonctionnalités prêtes à l''emploi pour simplifier le développement'),

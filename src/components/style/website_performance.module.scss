@@ -1,5 +1,4 @@
 .website_performance {
-  max-width: 800px;
   padding: var(--magic-margin);
   width: 50%;
   display: flex;
@@ -109,16 +108,26 @@
         }
       }
     }
-
-
   }
 }
 
 @media (max-width: 600px) {
   .website_performance {
     width: 100%;
+
+    &::after {
+      display: none;
+    }
+
+    .website_performance_story {
+      flex-direction: column;
+
+      .website_performance_tech_badge {
+        padding: var(--magic-margin) !important;
+        width: 100% !important;
+        margin: var(--magic-margin) !important;
+      }
+    }
   }
-  .website_performance_story {
-    flex-direction: column;
-  }
+
 }

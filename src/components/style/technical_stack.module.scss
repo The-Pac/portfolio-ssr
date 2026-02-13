@@ -1,4 +1,5 @@
 .technical_stack {
+  padding: var(--magic-margin);
   margin-top: var(--magic-margin);
   margin-bottom: var(--magic-margin);
 
@@ -8,7 +9,7 @@
     color: var(--secondary-color);
     margin-bottom: 2rem;
     animation: fadeSlideUp 0.7s var(--ease-in-out-epic) 0.2s both;
-    text-align: center;
+    text-align: start;
     opacity: 1;
     transform: translateY(0);
   }
@@ -16,10 +17,7 @@
   .stack_container {
     align-items: start;
     justify-content: center;
-    padding: 20px;
-    width: 90%;
-    max-width: 1400px;
-    margin: 0 auto;
+    margin: 0 var(--magic-margin);
     animation: fade-in 1s var(--ease-in-out-epic);
     opacity: 1;
     transform: translateY(0);
@@ -33,7 +31,7 @@
 @media (min-width: 600px) {
   .technical_stack {
     .stack_container {
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(4, 1fr);
       gap: 25px;
     }
   }
@@ -42,9 +40,8 @@
 @media (min-width: 1024px) {
   .technical_stack {
     .stack_container {
-      grid-template-columns: repeat(6, 1fr);
+      grid-template-columns: repeat(7, 1fr);
       gap: 20px;
-      width: 95%;
     }
   }
 }

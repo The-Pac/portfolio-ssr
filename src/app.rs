@@ -76,21 +76,24 @@ pub fn App() -> impl IntoView {
 fn HomePage() -> impl IntoView {
     use crate::components::about_me_view::AboutMe;
     use crate::components::career_map_view::CareerMap;
-    use crate::components::contact_form_view::ContactForm;
+    use crate::components::contact_view::ContactForm;
     use crate::components::introduction_view::Introduction;
     use crate::components::recommendations_view::Recommendation;
-    use crate::components::stacks_view::Stack;
+    use crate::components::technical_stacks_view::TechnicalStack;
     use crate::components::website_performances_view::WebsitePerformance;
     use crate::components::projects_view::Project;
+    stylance::import_style!(style, "app.module.scss");
 
     view! {
         <Introduction/>
         <AboutMe/>
         <WebsitePerformance/>
         <CareerMap/>
-        <Stack/>
+        <TechnicalStack/>
+        <hr class=style::separator/>
         <Project/>
-        <Recommendation/>
+        <hr class=style::separator/>
         <ContactForm/>
+        <Recommendation/>
     }
 }
