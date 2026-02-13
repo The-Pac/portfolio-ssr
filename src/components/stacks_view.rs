@@ -1,5 +1,5 @@
+use crate::models::stack::StackStructure;
 use leptos::prelude::*;
-use crate::models::stack_structure::StackStructure;
 
 #[component]
 pub fn Stack() -> impl IntoView {
@@ -71,17 +71,19 @@ pub fn Stack() -> impl IntoView {
     ]);
 
     view! {
-       <h1 class=style::title>Les technologies qui me permettent de construire des projets</h1>
-       <div class=style::stack_container>
-            {move ||
-                stacks.get().into_iter()
-                .map(|stack : StackStructure|
-                    view! {
-                        <StackCard stack=stack/>
-                    }
-                )
-                .collect::<Vec<_>>()
-            }
+        <div class=style::technical_stack>
+            <h1 class=style::technical_stack_title>"Mon Environnement Technique"</h1>
+            <div class=style::stack_container>
+                {move ||
+                    stacks.get().into_iter()
+                    .map(|stack : StackStructure|
+                        view! {
+                            <StackCard stack=stack/>
+                        }
+                    )
+                    .collect::<Vec<_>>()
+                }
+            </div>
        </div>
     }
 }
@@ -92,13 +94,10 @@ fn StackCard(stack: StackStructure) -> impl IntoView {
 
     view! {
        <div class=style::stack_card>
-            <div class=style::card_inner>
-                <div class=style::card_front>
-                    <h2>{stack.title}</h2>
-                    <p>{stack.description}</p>
-                </div>
-
-                <div class=style::card_back>
+            <h2 class=style::stack_card_title>{stack.title}</h2>
+            <div class=style::stack_card_content>
+                <p class=style::stack_card_description>{stack.description}</p>
+                <div class=style::stack_card_logos>
                     {
                         stack.logo.into_iter()
                         .map(|logo |{

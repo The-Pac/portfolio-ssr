@@ -57,7 +57,7 @@ pub fn App() -> impl IntoView {
             <div class=style::routing_progress>
                 <RoutingProgress is_routing max_time=Duration::from_millis(250)/>
             </div>
-            <main class=style::main>
+            <main>
                 <Routes fallback=|| {
                     let mut outside_errors = Errors::default();
                     outside_errors.insert_with_default_key(AppError::NotFound);
@@ -74,22 +74,22 @@ pub fn App() -> impl IntoView {
 
 #[component]
 fn HomePage() -> impl IntoView {
-    use crate::components::about_me::AboutMe;
-    use crate::components::career_map::CareerMap;
-    use crate::components::contact_form::ContactForm;
-    use crate::components::introduction::Introduction;
-    use crate::components::recommendation::Recommendation;
-    use crate::components::stack::Stack;
-    use crate::components::website_performance::WebsitePerformance;
-    //use crate::components::stack::Project;
+    use crate::components::about_me_view::AboutMe;
+    use crate::components::career_map_view::CareerMap;
+    use crate::components::contact_form_view::ContactForm;
+    use crate::components::introduction_view::Introduction;
+    use crate::components::recommendations_view::Recommendation;
+    use crate::components::stacks_view::Stack;
+    use crate::components::website_performances_view::WebsitePerformance;
+    use crate::components::projects_view::Project;
 
     view! {
         <Introduction/>
         <AboutMe/>
+        <WebsitePerformance/>
         <CareerMap/>
         <Stack/>
-        /*<Project/>*/
-        <WebsitePerformance/>
+        <Project/>
         <Recommendation/>
         <ContactForm/>
     }

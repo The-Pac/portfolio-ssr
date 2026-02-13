@@ -1,8 +1,5 @@
 use std::collections::HashMap;
 use indexmap::IndexMap;
-use leptos::logging::error;
-use leptos::prelude::ServerFnError;
-use leptos::server;
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone)]
@@ -99,42 +96,4 @@ impl<'r> sqlx::FromRow<'r, sqlx::sqlite::SqliteRow> for CareerNode {
     }
 }
 
-#[cfg(feature = "ssr")]
-#[server]
-pub async fn get_career_nodes() -> Result<Vec<CareerNode>, ServerFnError> {
-    let connection = crate::libs::database::get_database();
 
-    let career_nodes = sqlx::query_as::<_, CareerNode>(
-        r#"
-            SELECT
-            c.id,
-            c.title,
-            c.year,
-            c.parent_id,
-            t.name AS technology_name,
-            tc.title AS technology_category_title,
-            COALESCE(cl.path, tl.path) AS logo_path,
-            COALESCE(cl.name, tl.name) AS logo_name
-        FROM careers c
-        LEFT JOIN technology t ON c.technology_id = t.id
-        LEFT JOIN technology_category tc ON t.technology_category_id = tc.id
-        LEFT JOIN logo cl ON c.logo_id = cl.id
-        LEFT JOIN logo tl ON t.logo_id = tl.id
-        "#,
-    )
-        .fetch_all(connection)
-        .await?;
-
-    Ok(career_nodes)
-}
-
-#[server]
-pub async fn load_career() -> Result<CareerNodeTree, ServerFnError> {
-    match get_career_nodes().await {
-        Ok(career_nodes) => Ok(CareerNodeTree::build_from_flat_data(career_nodes)),
-        Err(errors) => {
-            error!("Career loading error: {:?}", errors);
-            Err(errors)
-        }
-    }
-}

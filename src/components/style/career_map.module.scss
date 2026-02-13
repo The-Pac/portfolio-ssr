@@ -1,7 +1,9 @@
-.career_map_wrapper {
+.career_map {
   position: relative;
   width: 100%;
   z-index: 1;
+  margin-top: var(--magic-margin);
+  margin-bottom: var(--magic-margin);
   animation: fade-in 1s var(--ease-in-out-epic);
   opacity: 1;
   transform: translateY(0);
@@ -13,142 +15,149 @@
 
   &.fullscreen {
     position: fixed;
+    border: none;
+    margin: 0!important;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh!important;
     z-index: 9999;
   }
-}
 
-.career_map_container {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  overflow: hidden;
-  background-color: var(--third-color);
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-  cursor: pointer;
-  transition: all 0.3s ease;
-
-  &:hover {
-    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15);
-    transform: translateY(-2px);
-  }
-
-  .fullscreen & {
-    border-radius: 0;
-    cursor: grab;
+  .career_map_viewport {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    background-color: var(--third-color);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: all 0.3s ease;
 
     &:hover {
-      transform: none;
+      box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15);
+      transform: translateY(-2px);
+    }
+
+    .fullscreen & {
+      border-radius: 0;
+      cursor: grab;
+
+      &:hover {
+        transform: none;
+      }
     }
   }
-}
 
-.career_map {
-  border-radius: 20px;
-  width: 50000px;
-  height: 50000px;
-  overflow: visible;
-  transform-origin: 0 0;
-  background-color: white;
-  z-index: 0;
-  display: block;
-  margin: 0 auto;
-  cursor: grab;
-  position: absolute;
-  left: -1000px;
-  top: -500px;
-  transform: translate(0px, 0px) scale(1);
-  transition: transform 0.1s ease-out;
-  will-change: transform;
-  transform-style: preserve-3d;
-  backface-visibility: hidden;
+  .career_map_canvas {
+    border-radius: 20px;
+    width: 50000px;
+    height: 50000px;
+    overflow: visible;
+    transform-origin: 0 0;
+    background-color: white;
+    z-index: 0;
+    display: block;
+    margin: 0 auto;
+    cursor: grab;
+    position: absolute;
+    left: -1000px;
+    top: -500px;
+    transform: translate(0px, 0px) scale(1);
+    transition: transform 0.1s ease-out;
+    will-change: transform;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
 
-  &:active {
-    cursor: grabbing;
-  }
-}
-
-.exit_fullscreen_btn {
-  position: fixed;
-  bottom: 40px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 16px 32px;
-  background: rgba(255, 255, 255, 0.95);
-  border: none;
-  border-radius: 50px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: 600;
-  color: #333;
-  z-index: 10000;
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-  animation: bounceIn 0.6s ease-out;
-
-  svg {
-    animation: bounce 2s ease-in-out infinite;
+    &:active {
+      cursor: grabbing;
+    }
   }
 
-  &:hover {
-    background: white;
-    transform: translateX(-50%) translateY(-5px);
-    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
-  }
+  .exit_fullscreen_btn {
+     position: fixed;
+     bottom: 40px;
+     left: 50%;
+     transform: translateX(-50%);
+     display: flex;
+    flex-direction: column;
+     align-items: center;
+     padding: 20px 50px;
+     background: rgba(255, 255, 255, 0.95);
+     border: none;
+     border-radius: 50px;
+     box-shadow: 0 10px 40px var(--third-color);
+     cursor: pointer;
+     font-size: 16px;
+     font-weight: 600;
+     color: #333;
+     z-index: 10000;
+     transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+     animation: bounceIn 0.6s ease-out;
 
-  &:active {
-    transform: translateX(-50%) translateY(-2px);
-  }
+     svg {
+       position: absolute;
+       bottom: 7%;
+       animation: bounce 2s ease-in-out infinite;
+     }
 
-  @media (max-width: 768px) {
+     &:hover {
+       background: white;
+       transform: translateX(-50%) translateY(-5px);
+       box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+     }
+
+     &:active {
+       transform: translateX(-50%) translateY(-2px);
+     }
+
+    .exit_text {
+      @media (max-width: 1024px) {
+        display: none;
+      }
+    }
+
+     @media (max-width: 768px) {
+       display: none;
+     }
+   }
+
+
+
+  .swipe_indicator {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
     display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    z-index: 10000;
+    animation: fadeInDown 0.6s ease-out;
+
+    @media (max-width: 768px) {
+      display: flex;
+    }
+  }
+
+  .swipe_line {
+    width: 60px;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    animation: swipePulse 2s ease-in-out infinite;
+  }
+
+  .swipe_text {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 13px;
+    font-weight: 500;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    animation: fadeInOut 3s ease-in-out infinite;
   }
 }
 
-.exit_text {
-  @media (max-width: 1024px) {
-    display: none;
-  }
-}
-
-.swipe_indicator {
-  position: fixed;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  z-index: 10000;
-  animation: fadeInDown 0.6s ease-out;
-
-  @media (max-width: 768px) {
-    display: flex;
-  }
-}
-
-.swipe_line {
-  width: 60px;
-  height: 5px;
-  background: rgba(255, 255, 255, 0.8);
-  border-radius: 10px;
-  animation: swipePulse 2s ease-in-out infinite;
-}
-
-.swipe_text {
-  color: rgba(255, 255, 255, 0.9);
-  font-size: 13px;
-  font-weight: 500;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-  animation: fadeInOut 3s ease-in-out infinite;
-}
 
 @keyframes swipePulse {
   0%, 100% {
@@ -208,11 +217,13 @@
 }
 
 @media (max-width: 768px) {
-  .career_map_wrapper {
+  .career_map {
     height: 400px;
+
+    .career_map_viewport {
+      border-radius: 12px;
+    }
   }
 
-  .career_map_container {
-    border-radius: 12px;
-  }
+
 }

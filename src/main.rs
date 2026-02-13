@@ -1,4 +1,5 @@
 use std::path::PathBuf;
+use dotenv::dotenv;
 use portfolio_ssr::libs::database::init_database;
 
 #[cfg(feature = "ssr")]
@@ -9,6 +10,8 @@ async fn main() {
     use leptos::prelude::*;
     use leptos_axum::{generate_route_list, LeptosRoutes};
     use portfolio_ssr::app::*;
+
+    dotenv().ok();
 
     init_database()
         .await

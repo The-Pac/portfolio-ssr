@@ -1,4 +1,5 @@
-use crate::models::career::{CareerNode, InteractionState};
+use crate::models::career::{CareerNode, CareerNodeTree, InteractionState};
+use crate::models::database_error::CareerError;
 use leptos::either::Either;
 use leptos::ev::{MouseEvent, TouchEvent, WheelEvent};
 use leptos::html::Div;
@@ -23,7 +24,10 @@ fn calculate_coordinates(rayon: f64, angle_deg: f64) -> (f64, f64) {
 pub fn CareerMap() -> impl IntoView {
     stylance::import_style!(style, "style/career_map.module.scss");
 
-    let load_career_ressource = LocalResource::new(|| crate::models::career::load_career());
+    let load_career_ressource: LocalResource<Result<CareerNodeTree, CareerError>>  = LocalResource::new(|| async {
+        let career_nodes = crate::server::career::load_career().await?;
+        Ok(CareerNodeTree::build_from_flat_data(career_nodes))
+    });
 
     let is_dragging = RwSignal::new(false);
     let drag_start_x = RwSignal::new(0.0);
@@ -211,22 +215,22 @@ pub fn CareerMap() -> impl IntoView {
         <div
             class={move || {
                 if is_fullscreen.get() {
-                    format!("{} {}", style::career_map_wrapper, style::fullscreen)
+                    format!("{} {}", style::career_map, style::fullscreen)
                 } else {
-                    style::career_map_wrapper.to_string()
+                    style::career_map.to_string()
                 }
             }}
         >
             <div
                 node_ref=map_container_ref
-                class=style::career_map_container
+                class=style::career_map_viewport
                 on:click=move |_| {
                     if !is_fullscreen.get() {
                         enter_fullscreen(());
                     }
                 }
             >
-                <div class=style::career_map
+                <div class=style::career_map_canvas
                     node_ref=map_content_ref
                     on:mousedown=handle_drag_start
                     on:mousemove=handle_drag_move
@@ -271,10 +275,10 @@ pub fn CareerMap() -> impl IntoView {
                     on:click=move |_| exit_fullscreen(())
                     aria-label="Exit fullscreen"
                 >
+                    <span class=style::exit_text>"Sortir"</span>
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M19 9l-7 7-7-7"/>
                     </svg>
-                    <span class=style::exit_text>"Sortir"</span>
                 </button>
             })}
         {move || is_fullscreen.get().then(|| view! {
@@ -360,7 +364,7 @@ fn CareerNodeView(node: CareerNode, start_x: f64, start_y: f64, start_angle: f64
                     />
                     <circle
                         r="50"
-                        fill="white"
+                        fill="#214f46"
                         stroke="black"
                         stroke-width="2"
                         style="filter: drop-shadow(0px 4px 12px rgba(0, 0, 0, 0.15))"

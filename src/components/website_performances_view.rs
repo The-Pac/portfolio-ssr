@@ -63,16 +63,29 @@ pub fn WebsitePerformance() -> impl IntoView {
     }
 
     view! {
-            <h1 class=style::title>"Performance & Architecture"</h1>
-            <div class=style::container>
-                <div class=style::story>
-                    <p class=style::intro>
+            <div class=style::website_performance>
+                <h1 class=style::website_performance_title>"Structure & Performance"</h1>
+                <p class=style::website_performance_intro>
                         "J’ai pensé ce site avec l’idée "
-                        <span class=style::highlight>"« Light is Right »"</span>
+                        <span class=style::website_performance_highlight>"« Light is Right »"</span>
                         " de Colin Chapman, et j’ai choisi ces technologies pour rester fidèle à cette philosophie."
-                    </p>
-
-                    <p class=style::narrative>
+                </p>
+                <div class=style::website_performance_story>
+                    <div class=style::website_performance_tech_badge>
+                        <span class=style::website_performance_badge_label>"Conçu avec"</span>
+                        <div class=style::website_performance_badge_stack>
+                           <a href="https://leptos.dev/"><span>"Leptos (SSR)"</span></a>
+                            <br/>
+                            <a href="https://rust-lang.org/fr/"><span>"Rust"</span></a>
+                            <br/>
+                            <a href="https://github.com/tokio-rs/axum"><span>"Axum"</span></a>
+                            <br/>
+                            <a href="https://github.com/launchbadge/sqlx"><span>"SQLx (SQLite)"</span></a>
+                            <br/>
+                            <a href="https://github.com/basro/stylance-rs"><span>"Stylance"</span></a>
+                        </div>
+                    </div>
+                    <p class=style::website_performance_narrative>
                         "Imaginez un site qui se charge presque instantanément. "
                         "Le plus gros élément visuel apparaît en "
                         <MetricInline metric=lcp unit="ms"/>
@@ -89,21 +102,6 @@ pub fn WebsitePerformance() -> impl IntoView {
                         <MetricInline metric=ttfb unit="ms"/>
                         "."
                     </p>
-                </div>
-
-                <div class=style::tech_badge>
-                    <span class=style::badge_label>"Conçu avec"</span>
-                    <div class=style::badge_stack>
-                       <a href="https://leptos.dev/"><span>"Leptos (SSR)"</span></a>
-                        <br/>
-                        <a href="https://rust-lang.org/fr/"><span>"Rust"</span></a>
-                        <br/>
-                        <a href="https://github.com/tokio-rs/axum"><span>"Axum"</span></a>
-                        <br/>
-                        <a href="https://github.com/launchbadge/sqlx"><span>"SQLx (SQLite)"</span></a>
-                        <br/>
-                        <a href="https://github.com/basro/stylance-rs"><span>"Stylance"</span></a>
-                    </div>
                 </div>
             </div>
     }
