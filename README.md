@@ -1,4 +1,4 @@
-# Portfolio SSR
+# Portfolio SSR [arsac-baptiste.dev](https://arsac-baptiste.dev/)
 
 ## Overview
 
@@ -36,4 +36,3 @@ This portfolio serves as a practical learning experience for exploring the Rust 
 
 This project is actively maintained as a personal portfolio and ongoing experiment with Rust web technologies.
 
-<img width="315" height="822" alt="image" src="https://github.com/user-attachments/assets/0ac9ace0-15cb-47a1-95f0-7ad38b61bdee" />
