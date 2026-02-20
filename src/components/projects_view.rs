@@ -3,6 +3,7 @@ use crate::models::database_error::ProjectError;
 use crate::models::project::ProjectStatus;
 use leptos::either::Either;
 use leptos::prelude::*;
+use crate::components::svg_icon::SvgIcon;
 
 #[component]
 pub fn Project() -> impl IntoView {
@@ -13,7 +14,7 @@ pub fn Project() -> impl IntoView {
 
     view! {
         <div class=style::project>
-            <h1 class=style::project_title>"Mes Projets"</h1>
+            <h2 class=style::project_title>"Mes Projets"</h2>
             <div class=style::project_cards>
                 <Suspense fallback=move || view! { <p>"Chargement des projets..."</p> }>
                     {move || {
@@ -64,20 +65,10 @@ fn ProjectCard(project: models::project::Project) -> impl IntoView {
                         style::project_card_flip_button.to_string()
                     }
                 }}
-                on:click=move |_| is_flipped.update(|f| *f = !*f)
+                on:click=move |_| is_flipped.update(|flipped| *flipped = !*flipped)
                 aria-label="Retourner la carte"
             >
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                >
-                    <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/>
-                </svg>
+                <SvgIcon src="/logo/mdi/flip-forward-icon.svg".to_string()/>
             </button>
             <div class={move || {
                 if is_flipped.get() {
@@ -88,44 +79,75 @@ fn ProjectCard(project: models::project::Project) -> impl IntoView {
             }}>
                 <div class=style::project_card_front>
                     <div class=style::project_card_header>
-                        <h2 class=style::project_card_title>{project.title}</h2>
-                        <span class={ move || {
+                        <h3 class=style::project_card_title>{project.title}</h3>
+                        <p class={ move || {
                             format!("{} {}", style::project_card_status, status_class(project.status.clone()))
                         }}>
-                            {format!("{:?}",project.status)}
-                        </span>
+                            {project.status.to_string()}
+                        </p>
                     </div>
                     <div class=style::project_card_body>
-                        <p class=style::project_card_description>
-                            {project.description.as_ref()
-                                .map(|description| description.clone().chars().take(150).collect::<String>())
-                                .unwrap_or_default()
-                            }
-                            "..."
-                        </p>
+                        <details class=style::project_card_description>
+                            <summary>
+                                "Voir la description"
+                            </summary>
+                            <p>
+                               {
+                                    project.description.as_ref()
+                                        .map(|description| {
+                                            if description.len() > 150 {
+                                                format!("{}...", description.chars().take(150).collect::<String>())
+                                            } else {
+                                                description.clone()
+                                            }
+                                        })
+                                        .unwrap_or_default()
+                                }
+                            </p>
+                        </details>
+
                         {project.url_to_project.as_ref().map(|url|
                             view! {
-                                <a class=style::project_card_link href=url.clone() target="_blank" rel="noopener noreferrer">
-                                    <img
-                                        src="/logo/programming_language/devops_and_infrastructure/github-icon.svg"
-                                        alt="Icône GitHub"
-                                    />
+                                <a
+                                    class=style::project_card_link
+                                    href=url.clone()
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    <SvgIcon src="/logo/programming_language/devops_and_infrastructure/github-icon.svg".to_string()/>
                                 </a>
                             }
                         )}
                     </div>
+
                 </div>
                 <div class=style::project_card_back>
                     <div class=style::project_card_stack>
-                        {project.technologies.iter().map(|tech: &models::technology::TechnologyWithLogo| {
-                            view! {
-                                <img
-                                    src=format!("{}", tech.logo_path)
-                                    alt=format!("Icône pour {}", tech.name)
-                                    title=format!("{} ({})", tech.name, tech.category_title)
-                                />
-                            }
-                        }).collect_view()}
+                        {project.technologies
+                            .iter()
+                            .map(|tech: &models::technology::TechnologyWithLogo| {
+                                if tech.logo_path.ends_with(".svg") {
+                                    view! {
+                                        <SvgIcon
+                                            src=tech.logo_path.clone()
+                                        />
+                                    }
+                                    .into_any()
+                                } else {
+                                    view! {
+                                        <img
+                                            src=format!("{}", tech.logo_path)
+                                            alt=format!("Icône pour {}", tech.name)
+                                            title=format!("{} ({})", tech.name, tech.category_title)
+                                            loading="lazy"
+                                            decoding="async"
+                                        />
+                                    }
+                                    .into_any()
+                                }
+                            })
+                            .collect_view()
+                        }
                     </div>
                 </div>
             </div>

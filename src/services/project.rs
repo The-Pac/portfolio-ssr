@@ -1,8 +1,9 @@
+use leptos::lazy;
 use crate::models::database_error::{ModelError, ProjectError};
 use crate::models::project::{Project, ProjectRow, ProjectStatus};
 use crate::models::technology::{TechnologyRow, TechnologyWithLogo};
 use sqlx::SqlitePool;
-
+#[lazy]
 pub async fn get_all_projects(
     connection_database: &SqlitePool,
 ) -> Result<Vec<Project>, ProjectError> {

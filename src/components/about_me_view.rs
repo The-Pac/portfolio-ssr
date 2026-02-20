@@ -6,13 +6,12 @@ pub fn AboutMe() -> impl IntoView {
 
     view! {
         <div class=style::about_me>
-            <img class=style::about_me_img src="/image/me.jpg"/>
+            <img class=style::about_me_img fetchpriority="high" src="/image/me.webp" loading="eager" decoding="async" alt="une photo de moi regardant à l'horizon"/>
             <div class=style::introduction>
                 <span class=style::introduction_tag>"À propos de moi"</span>
                 <h2 class=style::introduction_heading>
-                    "Développeur"<br/>
-                    <em>"Junior"</em><br/>
-                    "motivé."
+                    <span>"Développeur"</span>
+                    <em>"Passionné"</em>
                 </h2>
 
                 <p class=style::introduction_body>

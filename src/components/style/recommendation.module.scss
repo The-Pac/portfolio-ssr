@@ -1,154 +1,154 @@
-.recommendation_wrapper {
+.recommendation {
   overflow: hidden;
   width: 100%;
   background-color: var(--secondary-background-color);
   animation: fade-in 1s var(--ease-in-out-epic);
-}
 
-.carousel_track {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: clamp(12rem, 20vh, 16rem);
-  perspective: 1000px;
-}
-
-.carousel_item {
-  position: absolute;
-  transform-origin: center center;
-  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  will-change: transform;
-  pointer-events: none;
-
-  .item_content {
+  .recommendation_carousel_track {
+    position: relative;
     display: flex;
-    flex-direction: row;
     align-items: center;
     justify-content: center;
-    gap: 1rem;
-    max-width: 85vw;
+    width: 100%;
+    height: clamp(12rem, 20vh, 16rem);
+    perspective: 1000px;
 
-    @media (min-width: 768px) {
-      gap: 1.5rem;
-      max-width: none;
-    }
-  }
+    .carousel_item {
+      position: absolute;
+      transform-origin: center center;
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      will-change: transform;
+      pointer-events: none;
 
-  .logo {
-    width: 3rem;
-    height: auto;
-    max-height: 2.5rem;
-    object-fit: contain;
-    filter: saturate(0) brightness(1.2);
-    transition: all 0.5s ease;
-    flex-shrink: 0;
+      .item_content {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        max-width: 85vw;
 
-    @media (min-width: 768px) {
-      width: 4rem;
-      max-height: 3.5rem;
-    }
-
-    @media (min-width: 1024px) {
-      width: 5rem;
-      max-height: 4.5rem;
-    }
-  }
-
-  &.selected {
-    pointer-events: auto;
-
-    .logo {
-      filter: saturate(1) brightness(1);
-      width: 7.5rem;
-      max-height: 7rem;
-
-      @media (min-width: 768px) {
-        width: 8.5rem;
-        max-height: 8rem;
+        @media (min-width: 768px) {
+          gap: 1.5rem;
+          max-width: none;
+        }
       }
 
-      @media (min-width: 1024px) {
-        width: 8.5rem;
-        max-height: 8rem;
-      }
-    }
-  }
+      .logo {
+        width: 3rem;
+        height: auto;
+        max-height: 2.5rem;
+        object-fit: contain;
+        filter: saturate(0) brightness(1.2);
+        transition: all 0.5s ease;
+        flex-shrink: 0;
 
-  .recommendation {
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(10px);
-    padding: 0.75rem 1rem;
-    border-radius: 0.75rem;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    max-width: 16rem;
-    max-height: 9rem;
-    overflow: hidden;
-    box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.1);
-    animation: slide-up 0.4s ease-out;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+        @media (min-width: 768px) {
+          width: 4rem;
+          max-height: 3.5rem;
+        }
 
-    @media (min-width: 768px) {
-      padding: 1rem 1.25rem;
-      max-width: 20rem;
-      max-height: 10rem;
-    }
-
-    @media (min-width: 1024px) {
-      padding: 1.25rem 1.5rem;
-      max-width: 24rem;
-      max-height: 11rem;
-    }
-
-    p {
-      font-size: 0.75rem;
-      line-height: 1.4;
-      margin: 0 0 0.5rem 0;
-      font-style: italic;
-      color: rgba(255, 255, 255, 0.9);
-      overflow: hidden;
-      text-overflow: ellipsis;
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-
-      @media (min-width: 768px) {
-        font-size: 0.85rem;
-        line-height: 1.5;
-        margin-bottom: 0.75rem;
-        -webkit-line-clamp: 4;
+        @media (min-width: 1024px) {
+          width: 5rem;
+          max-height: 4.5rem;
+        }
       }
 
-      @media (min-width: 1024px) {
-        font-size: 0.95rem;
-        line-height: 1.6;
-      }
-    }
+      &.selected {
+        pointer-events: auto;
 
-    .card_author {
-      margin: 0;
-      text-align: right;
-      font-weight: 600;
-      font-size: 0.7rem;
-      color: var(--primary-color, #007bff);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+        .logo {
+          filter: saturate(1) brightness(1);
+          width: 7.5rem;
+          max-height: 7rem;
 
-      @media (min-width: 768px) {
-        font-size: 0.8rem;
-      }
+          @media (min-width: 768px) {
+            width: 8.5rem;
+            max-height: 8rem;
+          }
 
-      @media (min-width: 1024px) {
-        font-size: 0.85rem;
+          @media (min-width: 1024px) {
+            width: 8.5rem;
+            max-height: 8rem;
+          }
+        }
       }
 
-      &::before {
-        content: '— ';
-        opacity: 0.6;
+      .recommendation {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(10px);
+        padding: 0.75rem 1rem;
+        border-radius: 0.75rem;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        max-width: 16rem;
+        max-height: 9rem;
+        overflow: hidden;
+        box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.1);
+        animation: slide-up 0.4s ease-out;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        @media (min-width: 768px) {
+          padding: 1rem 1.25rem;
+          max-width: 20rem;
+          max-height: 10rem;
+        }
+
+        @media (min-width: 1024px) {
+          padding: 1.25rem 1.5rem;
+          max-width: 24rem;
+          max-height: 11rem;
+        }
+
+        p {
+          font-size: 0.75rem;
+          line-height: 1.4;
+          margin: 0 0 0.5rem 0;
+          font-style: italic;
+          color: rgba(255, 255, 255, 0.9);
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+
+          @media (min-width: 768px) {
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin-bottom: 0.75rem;
+            -webkit-line-clamp: 4;
+          }
+
+          @media (min-width: 1024px) {
+            font-size: 0.95rem;
+            line-height: 1.6;
+          }
+        }
+
+        .card_author {
+          margin: 0;
+          text-align: right;
+          font-weight: 600;
+          font-size: 0.7rem;
+          color: var(--primary-color, #007bff);
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+
+          @media (min-width: 768px) {
+            font-size: 0.8rem;
+          }
+
+          @media (min-width: 1024px) {
+            font-size: 0.85rem;
+          }
+
+          &::before {
+            content: '— ';
+            opacity: 0.6;
+          }
+        }
       }
     }
   }

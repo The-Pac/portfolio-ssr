@@ -1,7 +1,7 @@
 use std::collections::HashMap;
-use leptos::server;
+use leptos::{server};
 use crate::models::database_error::{TechnologyError};
-use crate::models::technology::{Technology, TechnologyCategory, TechnologyWithLogo};
+use crate::models::technology::{ TechnologyCategory, TechnologyWithLogo};
 
 #[server]
 pub async fn get_all_technology_categories() -> Result<Vec<TechnologyCategory>, TechnologyError> {

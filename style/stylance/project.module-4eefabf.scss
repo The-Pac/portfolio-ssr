@@ -15,17 +15,31 @@
   }
 
   .project_cards-4eefabf {
-    margin: 0 auto;
-    display: grid;
-    justify-items: center;
-    grid-template-columns: repeat(3, 1fr);
-    grid-auto-rows: 350px;
-    gap: calc(var(--magic-margin) * 1.5);
     padding-bottom: var(--magic-margin);
     animation: fade-in 1s var(--ease-in-out-epic);
     opacity: 1;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     align-items: start;
-    transform: translateY(0);
+    gap: 1.5rem;
+  }
+
+
+  @media (min-width: 768px) and (max-width: 1199px) {
+    .project_cards-4eefabf {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 767px) {
+    .project_cards-4eefabf {
+      grid-template-columns: repeat(1, 1fr);
+      column-gap: var(--magic-margin);
+    }
+
+    .project_card-4eefabf {
+      margin-bottom: var(--magic-margin);
+    }
   }
 }
 

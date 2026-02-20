@@ -1,10 +1,19 @@
 use leptos::prelude::*;
+use serde::Deserialize;
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Deserialize)]
 struct Metric {
     name: String,
     value: f64,
     rating: String,
+}
+
+#[derive(Clone, Debug, Deserialize)]
+struct ResourceBreakdown {
+    #[serde(rename = "type")]
+    resource_type: String,
+    #[serde(rename = "sizeKo")]
+    size_ko: f64,
 }
 
 #[component]
@@ -16,15 +25,25 @@ pub fn WebsitePerformance() -> impl IntoView {
     let inp = RwSignal::new(None::<Metric>);
     let fcp = RwSignal::new(None::<Metric>);
     let ttfb = RwSignal::new(None::<Metric>);
+    let total_size_ko = RwSignal::new(None::<Metric>);
+    let total_size_breakdown: RwSignal<Option<Vec<ResourceBreakdown>>> = RwSignal::new(None);
+
 
     #[cfg(not(feature = "ssr"))]
     {
         use wasm_bindgen::closure::Closure;
         use wasm_bindgen::JsCast;
-        use serde::Deserialize;
         use web_sys::{window, CustomEvent};
 
-        #[derive(Deserialize)]
+        #[derive(Deserialize, Debug)]
+        struct SizeData {
+            name: String,
+            #[serde(rename = "sizeKo")]
+            size_ko: f64,
+            breakdown: Vec<ResourceBreakdown>,
+        }
+
+        #[derive(Deserialize, Debug)]
         struct MetricData {
             name: String,
             value: f64,
@@ -34,14 +53,26 @@ pub fn WebsitePerformance() -> impl IntoView {
         Effect::new(move |_| {
             if let Some(window) = window() {
                 let callback = Closure::wrap(Box::new(move |event: CustomEvent| {
-                    if let Ok(detail) = serde_wasm_bindgen::from_value::<MetricData>(event.detail()) {
+                    if let Ok(size_data) =
+                        serde_wasm_bindgen::from_value::<SizeData>(event.detail())
+                    {
+                        if size_data.name == "TOTAL_SIZE" {
+                            total_size_ko.set(Some( Metric { name: "Taille".to_string(), value :size_data.size_ko, rating: "good".to_string() }));
+                            total_size_breakdown.set(Some(size_data.breakdown));
+                            return;
+                        }
+                    }
+
+                    if let Ok(metric_data) =
+                        serde_wasm_bindgen::from_value::<MetricData>(event.detail())
+                    {
                         let metric = Metric {
-                            name: detail.name.clone(),
-                            value: detail.value,
-                            rating: detail.rating,
+                            name: metric_data.name.clone(),
+                            value: metric_data.value,
+                            rating: metric_data.rating,
                         };
 
-                        match detail.name.as_str() {
+                        match metric_data.name.as_str() {
                             "LCP" => lcp.set(Some(metric)),
                             "CLS" => cls.set(Some(metric)),
                             "INP" => inp.set(Some(metric)),
@@ -54,7 +85,7 @@ pub fn WebsitePerformance() -> impl IntoView {
 
                 let _ = window.add_event_listener_with_callback(
                     "webvitals",
-                    callback.as_ref().unchecked_ref()
+                    callback.as_ref().unchecked_ref(),
                 );
 
                 callback.forget();
@@ -63,31 +94,35 @@ pub fn WebsitePerformance() -> impl IntoView {
     }
 
     view! {
-            <div class=style::website_performance>
-                <h1 class=style::website_performance_title>"Structure & Performance"</h1>
-                <p class=style::website_performance_intro>
-                        "J’ai pensé ce site avec l’idée "
-                        <span class=style::website_performance_highlight>"« Light is Right »"</span>
-                        " de Colin Chapman, et j’ai choisi ces technologies pour rester fidèle à cette philosophie."
+        <div class=style::website_performance>
+            <h2 class=style::website_performance_title>"Structure & Performance"</h2>
+            <div class=style::website_performance_introduction>
+                <p>"J'ai pensé ce site avec l'idée "</p>
+                <q class=style::website_performance_highlight cite="https://fr.wikipedia.org/wiki/Colin_Chapman#:~:text=%C2%AB%20Ce%20qui%20est%20l%C3%A9ger%20est%20bien%20%C2%BB%20(%C2%AB%20Light%20is%20Right%20%C2%BB)%20.">
+                  "Light is Right"
+                </q>
+                <p class=style::website_performance_citation>
+                    "- Colin Chapman, "
+                    <cite>"Philosophie du Design Automobile"</cite>
                 </p>
-                <div class=style::website_performance_story>
+                <p>"et j'ai choisi ces technologies pour rester fidèle à cette philosophie."</p>
+            </div>
+            <div class=style::website_performance_story>
+                <div class=style::website_performance_tech_and_narrative>
                     <div class=style::website_performance_tech_badge>
-                        <span class=style::website_performance_badge_label>"Conçu avec"</span>
+                        <h3 class=style::website_performance_badge_label>"Conçu avec"</h3>
                         <div class=style::website_performance_badge_stack>
-                           <a href="https://leptos.dev/"><span>"Leptos (SSR)"</span></a>
-                            <br/>
-                            <a href="https://rust-lang.org/fr/"><span>"Rust"</span></a>
-                            <br/>
-                            <a href="https://github.com/tokio-rs/axum"><span>"Axum"</span></a>
-                            <br/>
-                            <a href="https://github.com/launchbadge/sqlx"><span>"SQLx (SQLite)"</span></a>
-                            <br/>
-                            <a href="https://github.com/basro/stylance-rs"><span>"Stylance"</span></a>
+                            <a href="https://leptos.dev/">"Leptos (SSR)"</a>
+                            <a href="https://rust-lang.org/fr/">"Rust"</a>
+                            <a href="https://github.com/tokio-rs/axum">"Axum"</a>
+                            <a href="https://github.com/launchbadge/sqlx">"SQLx"</a>
+                            <a href="https://github.com/basro/stylance-rs">"Stylance"</a>
                         </div>
                     </div>
                     <p class=style::website_performance_narrative>
-                        "Imaginez un site qui se charge presque instantanément. "
-                        "Le plus gros élément visuel apparaît en "
+                        "Imaginez un site de "
+                        <MetricInline metric=total_size_ko unit="ko"/>
+                        " qui se charge presque instantanément. Le plus gros élément visuel apparaît en "
                         <MetricInline metric=lcp unit="ms"/>
                         ". "
                         "Rien ne bouge pendant que vous lisez "
@@ -103,15 +138,38 @@ pub fn WebsitePerformance() -> impl IntoView {
                         "."
                     </p>
                 </div>
+                <Show
+                    when=move || total_size_breakdown.get().is_some()
+                    fallback=|| ()
+                >
+                    {move || {
+                        let breakdown = total_size_breakdown.get().unwrap();
+
+                        view! {
+                            <div class=style::website_performance_breakdown>
+                                <For
+                                    each=move || breakdown.clone()
+                                    key=|item| item.resource_type.clone()
+                                    children=move |item| {
+                                        view! {
+                                            <div class=style::breakdown_item>
+                                                <span>{item.resource_type.clone()}</span>
+                                                <strong>{item.size_ko.clone()} "ko"</strong>
+                                            </div>
+                                        }
+                                    }
+                                />
+                            </div>
+                        }.into_any()
+                    }}
+                </Show>
             </div>
+        </div>
     }
 }
 
 #[component]
-fn MetricInline(
-    metric: RwSignal<Option<Metric>>,
-    unit: &'static str,
-) -> impl IntoView {
+fn MetricInline(metric: RwSignal<Option<Metric>>, unit: &'static str) -> impl IntoView {
     stylance::import_style!(style, "style/website_performance_metric.module.scss");
 
     view! {
@@ -127,7 +185,7 @@ fn MetricInline(
                     let formatted = if unit.is_empty() {
                         format!("{:.3} ({})", m.value, m.name)
                     } else {
-                        format!("{:.0}{} ({})", m.value, unit,m.name)
+                        format!("{:.0}{} ({})", m.value, unit, m.name)
                     };
 
                     view! {

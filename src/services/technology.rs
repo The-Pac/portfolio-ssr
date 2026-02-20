@@ -2,7 +2,9 @@ use crate::models::database_error::{ModelError, TechnologyError};
 use crate::models::technology::{TechnologyCategory, TechnologyRow, TechnologyWithLogo};
 use sqlx::SqlitePool;
 use std::collections::HashMap;
+use leptos::lazy;
 
+#[lazy]
 pub async fn get_all_technologies(
     connection_database: &SqlitePool,
 ) -> Result<Vec<TechnologyWithLogo>, TechnologyError> {
@@ -36,6 +38,7 @@ pub async fn get_all_technologies(
         .collect())
 }
 
+#[lazy]
 pub async fn get_technologies_by_category(
     connection_database: &SqlitePool,
 ) -> Result<HashMap<String, Vec<TechnologyWithLogo>>, TechnologyError> {
@@ -76,6 +79,7 @@ pub async fn get_technologies_by_category(
     Ok(grouped)
 }
 
+#[lazy] 
 pub async fn get_all_technology_categories(
     connection_database: &SqlitePool,
 ) -> Result<Vec<TechnologyCategory>, TechnologyError> {

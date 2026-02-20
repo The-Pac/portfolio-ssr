@@ -1,17 +1,26 @@
-use std::path::PathBuf;
-use dotenv::dotenv;
-use portfolio_ssr::libs::database::init_database;
 
 #[cfg(feature = "ssr")]
 #[tokio::main]
 async fn main() {
+    use axum::body::Body;
+    use axum::http::{Request, Response};
     use axum::Router;
     use leptos::logging::log;
     use leptos::prelude::*;
     use leptos_axum::{generate_route_list, LeptosRoutes};
     use portfolio_ssr::app::*;
+    use portfolio_ssr::libs::database::init_database;
+    use std::path::PathBuf;
+    use std::time::Duration;
+    use tower_http::compression::CompressionLayer;
+    use tower_http::trace::TraceLayer;
+    use tracing::Span;
+    use tracing_subscriber::EnvFilter;
+    use tower_http::services::ServeDir;
 
-    dotenv().ok();
+    tracing_subscriber::fmt()
+        .with_env_filter(EnvFilter::from_default_env().add_directive("info".parse().unwrap()))
+        .init();
 
     init_database()
         .await
@@ -27,41 +36,51 @@ async fn main() {
             let leptos_options = leptos_options.clone();
             move || shell(leptos_options.clone())
         })
-        .fallback(leptos_axum::file_and_error_handler(shell))
-        .with_state(leptos_options);
-
-    let use_tls = std::env::var("USE_TLS")
-        .unwrap_or_else(|_| "false".to_string()) == "true";
-
-    if use_tls {
-        use axum_server::tls_rustls::RustlsConfig;
-
-        let cert_path = std::env::var("TLS_CERT_PATH")
-            .expect("TLS_CERT_PATH not found");
-        let key_path = std::env::var("TLS_KEY_PATH")
-            .expect("TLS_KEY_PATH not found");
-
-        let tls_config = RustlsConfig::from_pem_file(
-            PathBuf::from(cert_path),
-            PathBuf::from(key_path),
+        .fallback_service(
+            ServeDir::new(leptos_options.site_root.as_ref())
+                .precompressed_br()
+                .precompressed_gzip(),
         )
-            .await
-            .expect("failed to open TLS certificats ");
+        .with_state(leptos_options)
+        .layer(CompressionLayer::new())
+        .layer(
+            TraceLayer::new_for_http()
+                .make_span_with(|req: &Request<_>| {
+                    let ip = req
+                        .headers()
+                        .get("x-forwarded-for")
+                        .and_then(|v| v.to_str().ok())
+                        .unwrap_or("unknown");
 
-        println!("listening on https://{}", addr);
-        axum_server::bind_rustls(addr, tls_config)
-            .serve(app.into_make_service())
-            .await
-            .unwrap();
-    } else {
-        log!("listening on http://{}", &addr);
-        let listener = tokio::net::TcpListener::bind(&addr).await.unwrap();
-        axum::serve(listener, app.into_make_service())
-            .await
-            .unwrap();
-    }
+                    tracing::info_span!(
+                        "http",
+                        method = %req.method(),
+                        uri = %req.uri().path(),
+                        ip = %ip,
+                    )
+                })
+                .on_response(|res: &Response<_>, latency: Duration, _span: &Span| {
+                    let millis = latency.as_millis();
+                    if millis > 1000 {
+                        tracing::warn!(
+                            status = %res.status(),
+                            latency_ms = millis,
+                            "slow request"
+                        );
+                    } else {
+                        tracing::info!(
+                            status = %res.status(),
+                            latency_ms = millis,
+                        );
+                    }
+                }),
+        );
+
+    log!("listening on http://{}", &addr);
+    let listener = tokio::net::TcpListener::bind(&addr).await.unwrap();
+    axum::serve(listener, app.into_make_service())
+        .await
+        .unwrap();
 }
 #[cfg(not(feature = "ssr"))]
-pub fn main() {
-
-}
+pub fn main() {}

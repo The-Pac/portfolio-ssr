@@ -17,9 +17,8 @@ pub struct CareerNode {
     pub children: IndexMap<i32, CareerNode>,
     pub technology_name: Option<String>,
     pub technology_category_title: Option<String>,
-    pub logo_path: String,
-    pub logo_name: String,
-    pub metadata: Option<HashMap<String, String>>,
+    pub logo_path: Option<String>,
+    pub logo_name: Option<String>,
 }
 #[derive(Clone, Deserialize, Serialize, Default)]
 pub struct CareerNodeTree {
@@ -91,7 +90,6 @@ impl<'r> sqlx::FromRow<'r, sqlx::sqlite::SqliteRow> for CareerNode {
             logo_path: row.try_get("logo_path")?,
             logo_name: row.try_get("logo_name")?,
             children: IndexMap::new(),
-            metadata: None,
         })
     }
 }

@@ -49,6 +49,7 @@ CREATE TABLE careers (
                          FOREIGN KEY (logo_id) REFERENCES logo(id) ON DELETE SET NULL
 );
 
+
 CREATE TABLE project_technology (
                                     project_id INTEGER NOT NULL,
                                     technology_id INTEGER NOT NULL,
@@ -56,6 +57,17 @@ CREATE TABLE project_technology (
                                     FOREIGN KEY (project_id) REFERENCES project(id) ON DELETE CASCADE,
                                     FOREIGN KEY (technology_id) REFERENCES technology(id) ON DELETE CASCADE
 );
+
+CREATE TABLE recommendation (
+                                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                                logo_id INTEGER NOT NULL,
+                                author TEXT ,
+                                texte TEXT,
+                                FOREIGN KEY (logo_id) REFERENCES logo(id) ON DELETE CASCADE
+);
+
+CREATE INDEX recommendation_author_idx ON recommendation(author);
+CREATE INDEX recommendation_logo_id_idx ON recommendation(logo_id);
 
 -- Enable foreign key constraints
 PRAGMA foreign_keys = ON;

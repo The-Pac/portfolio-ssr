@@ -1,0 +1,63 @@
+services:
+  portfolio:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: portfolio-ssr
+    restart: unless-stopped
+    environment:
+      - RUST_LOG=info
+      - LEPTOS_SITE_ADDR=0.0.0.0:8080
+      - LEPTOS_SITE_ROOT=site
+      - DISCORD_WEBHOOK_URL=${DISCORD_WEBHOOK_URL}
+    expose:
+      - "8080"
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8080" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+    networks:
+      - web
+
+  caddy:
+    build:
+      context: .
+      dockerfile: Dockerfile.caddy
+    environment:
+      - DOMAIN_NAME=${DOMAIN_NAME}
+    container_name: caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      portfolio:
+        condition: service_healthy
+    networks:
+      - web
+
+  uptime-kuma:
+    image: louislam/uptime-kuma:2
+    container_name: uptime-kuma
+    restart: unless-stopped
+    volumes:
+      - uptime_data:/app/data
+    ports:
+      - "3001:3001"
+    networks:
+      - web
+networks:
+  web:
+    driver: bridge
+
+volumes:
+  caddy_data:
+  caddy_config:
+  uptime_data:

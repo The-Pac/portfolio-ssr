@@ -2,25 +2,27 @@ use gloo_timers::future::sleep;
 use leptos::prelude::*;
 use leptos::task::spawn_local;
 use leptos::wasm_bindgen::JsCast;
-use rand::Rng;
 use std::time::Duration;
+use crate::components::svg_icon::SvgIcon;
 
 #[component]
 pub fn Introduction() -> impl IntoView {
     stylance::import_style!(style, "style/introduction.module.scss");
 
+
     let developper_types = vec!["Front-End.", "Back-End.", "Full-stack."];
     let hobbies = vec!["Motard.", "Joueur.", "Powerlifter.", "Plongeur."];
+
     let social_medias: Vec<SocialMedia> = vec![
         SocialMedia {
             url: "https://github.com/The-Pac",
             image: "/logo/programming_language/devops_and_infrastructure/github-icon.svg",
-            alt: "",
+            alt: "GitHub de Baptiste Arsac",
         },
         SocialMedia {
             url: "https://fr.linkedin.com/in/baptiste-arsac",
             image: "/logo/social_media/linkedin-icon.svg",
-            alt: "",
+            alt: "Profil LinkedIn de Baptiste Arsac",
         },
     ];
 
@@ -37,7 +39,7 @@ pub fn Introduction() -> impl IntoView {
         spawn_local(async move {
             for (i, dev_type) in dev_types.iter().enumerate() {
                 write_like_human(dev_type.to_string(), developper_type_text).await;
-                sleep(Duration::from_millis(2000)).await;
+                sleep(Duration::from_millis(1000)).await;
                 if i < dev_types.len() - 1 {
                     clear_text(developper_type_text).await;
                 }
@@ -47,7 +49,7 @@ pub fn Introduction() -> impl IntoView {
 
             for (i, hobby) in hobbies.iter().enumerate() {
                 write_like_human(hobby.to_string(), hobbie_text).await;
-                sleep(Duration::from_millis(2000)).await;
+                sleep(Duration::from_millis(1000)).await;
                 if i < hobbies.len() - 1 {
                     clear_text(hobbie_text).await;
                 }
@@ -74,28 +76,32 @@ pub fn Introduction() -> impl IntoView {
 
     view! {
         <div
-            class=style::intro_container
+            class=style::introduction
             class=(style::scrolled, move || is_scrolled.get())
         >
-            <div class=style::social_media_container>
+            <div class=style::introduction_social_media>
                 {
                     social_medias.into_iter()
                     .map(|social_media |{
                         view! {
-                            <a href=social_media.url>
-                                <img src=social_media.image alt=format!("Icône pour {}", social_media.alt)/>
+                            <a class=style::social_media_link href=social_media.url>
+                                <SvgIcon class=style::social_media_img.to_string() src=social_media.image.to_string()/>
                             </a>
                         }
                     })
                     .collect::<Vec<_>>()
                 }
             </div>
-            <div class=style::intro_content>
-                <b>"Salut,"</b>
-                <h1 class=style::intro_line_1>"Je suis Baptiste."</h1>
-                <h2 class=style::intro_line_2>"Un développeur "{move || developper_type_text}</h2>
+            <div class=style::introduction_content>
+                <strong class=style::introduction_greeting>"Salut,"</strong>
+                <h1 class=style::introduction_line_1>
+                    "Je suis Baptiste Arsac."<br/>
+                    <span class=style::introduction_line_2>
+                        "Un développeur "{move || developper_type_text}
+                    </span>
+                </h1>
                 <Show when=move || developper_type_text.get() == developper_types[developper_types.len()-1]>
-                    <h2 class=style::intro_line_3>{move || intro_hobby_text}{move || hobbie_text}</h2>
+                    <p class=style::introduction_line_3>{move || intro_hobby_text}{move || hobbie_text}</p>
                 </Show>
             </div>
         </div>
@@ -109,23 +115,24 @@ struct SocialMedia {
 }
 
 async fn write_like_human(text: String, signal: RwSignal<String>) {
-    let mut rng = rand::rng();
-
     for char in text.chars() {
         signal.update(move |current_value| current_value.push(char));
-        let delay = rng.random_range(50..150);
+        let delay = random_range_js(50,150);
         sleep(Duration::from_millis(delay)).await;
     }
 }
 
 async fn clear_text(signal: RwSignal<String>) {
-    let mut rng = rand::rng();
-
     while !signal.get_untracked().is_empty() {
         signal.update(move |current_value| {
             current_value.pop();
         });
-        let delay = rng.random_range(25..85);
+        let delay = random_range_js(25,85);
         sleep(Duration::from_millis(delay)).await;
     }
+}
+
+fn random_range_js(min: u64, max: u64) -> u64 {
+    let random = js_sys::Math::random();
+    min + (random * (max - min) as f64) as u64
 }

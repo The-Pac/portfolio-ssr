@@ -2,7 +2,7 @@
   width: 50%;
   display: flex;
   align-items: center;
-  flex-direction: column;
+  flex-direction: row;
   padding: var(--magic-margin);
   animation: fade-in 1s var(--ease-in-out-epic);
   opacity: 1;
@@ -54,6 +54,8 @@
   }
 
   .introduction_heading {
+    display: flex;
+    flex-direction: column;
     font-size: clamp(2.8rem, 5vw, 4.5rem);
     line-height: 1.05;
     color: var(--secondary-color);
@@ -83,14 +85,15 @@
     color: #2a2a2a;
     max-width: 42ch;
     animation: fadeSlideUp 0.7s var(--ease-in-out-epic) 0.4s both;
+    margin: var(--magic-margin) 0;
   }
 }
 }
 
-
 @media (max-width: 600px) {
   .about_me {
     width: 100%;
+    flex-direction: column!important;
 
     &::after {
       bottom: 0!important;
@@ -106,6 +109,7 @@
       aspect-ratio: 1;
       overflow: hidden;
       border-radius: 15px;
+      margin-bottom: var(--magic-margin);
     }
 
     .introduction{

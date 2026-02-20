@@ -10,6 +10,9 @@ const RADIUS_DISTANCE_FROM_PARENT: f64 = 500.0;
 const ZOOM_FACTOR: f64 = 0.1;
 const MIN_SCALE: f64 = 0.5;
 const MAX_SCALE: f64 = 5.0;
+const MAP_SIZE: f64 = 50000.0;
+const MAP_CENTER: f64 = MAP_SIZE / 2.0;
+const DEFAULT_SCALE: f64 = 1.0;
 
 fn calculate_coordinates(rayon: f64, angle_deg: f64) -> (f64, f64) {
     let angle_rad = (angle_deg * PI) / 180.0;
@@ -20,21 +23,35 @@ fn calculate_coordinates(rayon: f64, angle_deg: f64) -> (f64, f64) {
     (x, y)
 }
 
+fn get_touch_distance(touch1: &web_sys::Touch, touch2: &web_sys::Touch) -> f64 {
+    let dx = (touch2.client_x() - touch1.client_x()) as f64;
+    let dy = (touch2.client_y() - touch1.client_y()) as f64;
+    (dx * dx + dy * dy).sqrt()
+}
+
+fn get_touch_center(touch1: &web_sys::Touch, touch2: &web_sys::Touch) -> (f64, f64) {
+    let center_x = ((touch1.client_x() + touch2.client_x()) as f64) / 2.0;
+    let center_y = ((touch1.client_y() + touch2.client_y()) as f64) / 2.0;
+    (center_x, center_y)
+}
+
 #[component]
 pub fn CareerMap() -> impl IntoView {
     stylance::import_style!(style, "style/career_map.module.scss");
 
-    let load_career_ressource: LocalResource<Result<CareerNodeTree, CareerError>>  = LocalResource::new(|| async {
-        let career_nodes = crate::server::career::load_career().await?;
-        Ok(CareerNodeTree::build_from_flat_data(career_nodes))
-    });
+    let load_career_ressource: LocalResource<Result<CareerNodeTree, CareerError>> =
+        LocalResource::new(|| async {
+            let career_nodes = crate::server::career::load_career().await?;
+            Ok(CareerNodeTree::build_from_flat_data(career_nodes))
+        });
 
     let is_dragging = RwSignal::new(false);
+    let center_map_with_viewport = RwSignal::new((0.0, 0.0));
     let drag_start_x = RwSignal::new(0.0);
     let drag_start_y = RwSignal::new(0.0);
     let container_left = RwSignal::new(0.0);
     let container_top = RwSignal::new(0.0);
-    let scale = RwSignal::new(1.0);
+    let scale = RwSignal::new(DEFAULT_SCALE);
     let is_zooming = RwSignal::new(false);
     let is_animation_pending = RwSignal::new(false);
     let last_interaction_time = RwSignal::new(0.0);
@@ -42,9 +59,11 @@ pub fn CareerMap() -> impl IntoView {
     let map_container_ref: NodeRef<Div> = NodeRef::new();
     let state = RwSignal::new(InteractionState::Idle);
     let initial_touch_distance = RwSignal::new(0.0);
-
     let is_fullscreen = RwSignal::new(false);
     let touch_start_y = RwSignal::new(0.0);
+    let touch_start_x = RwSignal::new(0.0);
+    let last_touch_center = RwSignal::new((0.0, 0.0));
+    let is_pinching = RwSignal::new(false);
 
     let disable_scroll = move || {
         #[cfg(not(feature = "ssr"))]
@@ -72,12 +91,27 @@ pub fn CareerMap() -> impl IntoView {
 
             let transform_value = format!(
                 "translate3d({}px, {}px, 0px) scale3d({}, {}, 1)",
-                left, top,zoom, zoom
+                left, top, zoom, zoom
             );
 
             container.style(format!("transform: {}", transform_value));
         }
     };
+
+    Effect::new(move || {
+        if let Some(map_container) = map_container_ref.get_untracked() {
+            let rect = map_container.get_bounding_client_rect();
+
+            let absolute_center_height = -MAP_CENTER + rect.height() / 2.0;
+            let absolute_center_width = -MAP_CENTER + rect.width() / 2.0;
+
+            center_map_with_viewport.set((absolute_center_width, absolute_center_height));
+
+            container_left.set(absolute_center_width);
+            container_top.set(absolute_center_height);
+            update_transform();
+        }
+    });
 
     let enter_fullscreen = move |_| {
         is_fullscreen.set(true);
@@ -85,27 +119,147 @@ pub fn CareerMap() -> impl IntoView {
     };
 
     let exit_fullscreen = move |_| {
-        is_fullscreen.set(false);
-        enable_scroll();
+        if !is_animation_pending.get() {
+            is_animation_pending.set(true);
+            request_animation_frame(move || {
+                scale.set(DEFAULT_SCALE);
+                container_left.set(center_map_with_viewport.get_untracked().0);
+                container_top.set(center_map_with_viewport.get_untracked().1);
+
+                update_transform();
+                is_animation_pending.set(false);
+            });
+            is_fullscreen.set(false);
+            enable_scroll();
+        }
     };
 
     let handle_touch_start = move |event: TouchEvent| {
-        if let Some(touch) = event.touches().get(0) {
-            touch_start_y.set(touch.client_y() as f64);
+        event.prevent_default();
+
+        let touches = event.touches();
+
+        if touches.length() == 1 {
+            if let Some(touch) = touches.get(0) {
+                touch_start_y.set(touch.client_y() as f64);
+                touch_start_x.set(touch.client_x() as f64);
+                drag_start_x.set(touch.client_x() as f64 - container_left.get());
+                drag_start_y.set(touch.client_y() as f64 - container_top.get());
+                is_dragging.set(true);
+                is_pinching.set(false);
+                state.set(InteractionState::Dragging);
+            }
+        } else if touches.length() == 2 {
+            if let (Some(touch1), Some(touch2)) = (touches.get(0), touches.get(1)) {
+                is_dragging.set(false);
+                is_pinching.set(true);
+                state.set(InteractionState::Zooming);
+
+                let distance = get_touch_distance(&touch1, &touch2);
+                initial_touch_distance.set(distance);
+
+                let center = get_touch_center(&touch1, &touch2);
+                last_touch_center.set(center);
+            }
         }
     };
 
     let handle_touch_move = move |event: TouchEvent| {
-        if !is_dragging.get() && is_fullscreen.get() {
-            if let Some(touch) = event.touches().get(0) {
-                let touch_y = touch.client_y() as f64;
-                let diff = touch_y - touch_start_y.get();
+        event.prevent_default();
 
-                if diff > 100.0 {
-                    exit_fullscreen(());
+        let touches = event.touches();
+
+        if touches.length() == 1 && is_dragging.get() && !is_pinching.get() {
+            if let Some(touch) = touches.get(0) {
+                let touch_y = touch.client_y() as f64;
+                let touch_x = touch.client_x() as f64;
+
+                if !is_fullscreen.get() {
+                    let diff_y = touch_y - touch_start_y.get();
+                    if diff_y > 100.0 {
+                        exit_fullscreen(());
+                        return;
+                    }
+                }
+
+                let new_left = touch_x - drag_start_x.get();
+                let new_top = touch_y - drag_start_y.get();
+
+                if !is_animation_pending.get() {
+                    is_animation_pending.set(true);
+                    request_animation_frame(move || {
+                        container_left.set(new_left);
+                        container_top.set(new_top);
+                        update_transform();
+                        is_animation_pending.set(false);
+                    });
+                }
+            }
+        } else if touches.length() == 2 && is_pinching.get() {
+            if let (Some(touch1), Some(touch2)) = (touches.get(0), touches.get(1)) {
+                let current_distance = get_touch_distance(&touch1, &touch2);
+                let initial_distance = initial_touch_distance.get();
+
+                if initial_distance > 0.0 {
+                    let scale_change = current_distance / initial_distance;
+                    let current_scale = scale.get();
+                    let new_scale = (current_scale * scale_change).clamp(MIN_SCALE, MAX_SCALE);
+
+                    let current_center = get_touch_center(&touch1, &touch2);
+                    let last_center = last_touch_center.get();
+
+                    if let Some(container_elem) = map_container_ref.get() {
+                        let rect = container_elem.get_bounding_client_rect();
+                        let zoom_point_x = current_center.0 - rect.left();
+                        let zoom_point_y = current_center.1 - rect.top();
+
+                        let scale_delta = new_scale / current_scale;
+                        let old_left = container_left.get();
+                        let old_top = container_top.get();
+
+                        let new_left = zoom_point_x - (zoom_point_x - old_left) * scale_delta;
+                        let new_top = zoom_point_y - (zoom_point_y - old_top) * scale_delta;
+
+                        let pan_x = current_center.0 - last_center.0;
+                        let pan_y = current_center.1 - last_center.1;
+
+                        if !is_animation_pending.get() {
+                            is_animation_pending.set(true);
+                            request_animation_frame(move || {
+                                scale.set(new_scale);
+                                container_left.set(new_left + pan_x);
+                                container_top.set(new_top + pan_y);
+                                update_transform();
+                                is_animation_pending.set(false);
+                            });
+                        }
+                    }
+
+                    initial_touch_distance.set(current_distance);
+                    last_touch_center.set(current_center);
                 }
             }
         }
+    };
+
+    let handle_touch_end = move |event: TouchEvent| {
+        event.prevent_default();
+
+        #[cfg(not(feature = "ssr"))]
+        {
+            let now = web_sys::window()
+                .unwrap_or_else(|| panic!("No window"))
+                .performance()
+                .unwrap_or_else(|| panic!("No performance"))
+                .now();
+
+            last_interaction_time.set(now);
+        }
+
+        is_dragging.set(false);
+        is_pinching.set(false);
+        state.set(InteractionState::Idle);
+        initial_touch_distance.set(0.0);
     };
 
     let handle_drag_start = move |event: MouseEvent| {
@@ -177,36 +331,33 @@ pub fn CareerMap() -> impl IntoView {
             event.prevent_default();
             is_zooming.set(true);
 
-            let parent_rect = map_container_ref
-                .get()
-                .expect("map_container_ref should be mounted")
-                .get_bounding_client_rect();
+            let delta = if event.delta_y() > 0.0 { -ZOOM_FACTOR } else { ZOOM_FACTOR };
+            let new_scale = (scale.get() + delta).clamp(MIN_SCALE, MAX_SCALE);
 
-            let mouse_viewport_x = event.client_x() as f64 - parent_rect.left();
-            let mouse_viewport_y = event.client_y() as f64 - parent_rect.top();
+            if let Some(container) = map_container_ref.get() {
+                let rect = container.get_bounding_client_rect();
+                let mouse_x = event.client_x() as f64 - rect.left();
+                let mouse_y = event.client_y() as f64 - rect.top();
 
-            let old_scale = scale.get();
+                let scale_ratio = new_scale / scale.get();
+                let old_left = container_left.get();
+                let old_top = container_top.get();
 
-            let old_mouse_position_x = (mouse_viewport_x - container_left.get()) / old_scale;
-            let old_mouse_position_y = (mouse_viewport_y - container_top.get()) / old_scale;
+                let new_left = mouse_x - (mouse_x - old_left) * scale_ratio;
+                let new_top = mouse_y - (mouse_y - old_top) * scale_ratio;
 
-            let delta = -event.delta_y() * ZOOM_FACTOR * 0.01;
-            let new_scale = (old_scale + delta).clamp(MIN_SCALE, MAX_SCALE);
+                scale.set(new_scale);
+                container_left.set(new_left);
+                container_top.set(new_top);
 
-            let new_left = mouse_viewport_x - (old_mouse_position_x * new_scale);
-            let new_top = mouse_viewport_y - (old_mouse_position_y * new_scale);
-
-            scale.set(new_scale);
-            container_left.set(new_left);
-            container_top.set(new_top);
-
-            if !is_animation_pending.get() {
-                is_animation_pending.set(true);
-                request_animation_frame(move || {
-                    update_transform();
-                    is_animation_pending.set(false);
-                    is_zooming.set(false);
-                });
+                if !is_animation_pending.get() {
+                    is_animation_pending.set(true);
+                    request_animation_frame(move || {
+                        update_transform();
+                        is_animation_pending.set(false);
+                        is_zooming.set(false);
+                    });
+                }
             }
         }
     };
@@ -229,6 +380,11 @@ pub fn CareerMap() -> impl IntoView {
                         enter_fullscreen(());
                     }
                 }
+                on:touchstart=move |_| {
+                    if !is_fullscreen.get() {
+                        enter_fullscreen(());
+                    }
+                }
             >
                 <div class=style::career_map_canvas
                     node_ref=map_content_ref
@@ -239,9 +395,11 @@ pub fn CareerMap() -> impl IntoView {
                     on:wheel=handle_zoom
                     on:touchstart=handle_touch_start
                     on:touchmove=handle_touch_move
+                    on:touchend=handle_touch_end
+                    on:touchcancel=handle_touch_end
                     role="button"
                     tabindex="0">
-                    <Suspense fallback=move || view! { <p>"Loading career..."</p> }>
+                    <Suspense fallback=move || view! { <p>"Chargement de ma carrière..."</p> }>
                         {move || {
                             load_career_ressource.get().map(|career| {
                                 match career {
@@ -249,7 +407,7 @@ pub fn CareerMap() -> impl IntoView {
                                         Either::Left(
                                             career_data.roots.values().map(|root: &CareerNode| {
                                                 view! {
-                                                    <CareerNodeView node={root.clone()} start_x=1500.0 start_y=200.0 start_angle=90.0/>
+                                                    <CareerNodeView node={root.clone()} start_x={MAP_SIZE/2.0} start_y={MAP_SIZE/2.0} start_angle=90.0/>
                                                 }
                                             })
                                             .collect_view(),
@@ -272,21 +430,15 @@ pub fn CareerMap() -> impl IntoView {
             {move || is_fullscreen.get().then(|| view! {
                 <button
                     class=style::exit_fullscreen_btn
-                    on:click=move |_| exit_fullscreen(())
+                    on:click=move |event:MouseEvent| {
+                        event.stop_propagation();
+                        exit_fullscreen(());
+                    }
                     aria-label="Exit fullscreen"
                 >
-                    <span class=style::exit_text>"Sortir"</span>
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M19 9l-7 7-7-7"/>
-                    </svg>
+                    "Sortir"
                 </button>
             })}
-        {move || is_fullscreen.get().then(|| view! {
-            <div class=style::swipe_indicator>
-                <div class=style::swipe_line></div>
-                <span class=style::swipe_text>"Glissez vers le bas"</span>
-            </div>
-        })}
         </div>
     }
 }
@@ -300,6 +452,7 @@ fn CareerNodeView(node: CareerNode, start_x: f64, start_y: f64, start_angle: f64
     let children = node.children.clone();
     let num_children = children.len();
     let node_name = node.title.clone();
+    let logo_path = node.logo_path.clone();
 
     let angle_delta = if num_children > 1 {
         140.0 / (num_children - 1) as f64
@@ -351,9 +504,10 @@ fn CareerNodeView(node: CareerNode, start_x: f64, start_y: f64, start_angle: f64
                             }
                         }).collect_view()
                 }
+
                 <g
                     class=style::career_card
-                    style:transform=format!("translate({}px, {}px)", start_x as i32, start_y as i32)
+                    style:transform=format!("translate3d({}px, {}px, 0px) scale3d(1, 1, 1)", start_x as i32, start_y as i32)
                     on:mouseenter=move |_| show_tooltip.set(true)
                     on:mouseleave=move |_| show_tooltip.set(false)
                 >
@@ -370,7 +524,7 @@ fn CareerNodeView(node: CareerNode, start_x: f64, start_y: f64, start_angle: f64
                         style="filter: drop-shadow(0px 4px 12px rgba(0, 0, 0, 0.15))"
                     />
                     <image
-                        href=node.logo_path.clone()
+                        href=logo_path.clone()
                         x="-25"
                         y="-25"
                         width="50"
@@ -403,5 +557,5 @@ fn CareerNodeView(node: CareerNode, start_x: f64, start_y: f64, start_angle: f64
             </g>
         </svg>
     }
-    .into_any()
+        .into_any()
 }

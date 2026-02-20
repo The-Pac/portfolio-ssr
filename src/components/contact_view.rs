@@ -16,11 +16,11 @@ pub struct ContactForm {
 pub fn ContactForm() -> impl IntoView {
     stylance::import_style!(style, "style/contact.module.scss");
 
-    let name = RwSignal::new("".to_string());
-    let surname = RwSignal::new("".to_string());
-    let email = RwSignal::new("".to_string());
-    let company = RwSignal::new("".to_string());
-    let message = RwSignal::new("".to_string());
+    let name = RwSignal::new(String::new());
+    let surname = RwSignal::new(String::new());
+    let email = RwSignal::new(String::new());
+    let company = RwSignal::new(String::new());
+    let message = RwSignal::new(String::new());
     let status: RwSignal<Option<String>> = RwSignal::new(None);
 
     let send_form = Action::new(|contact_form: &ContactForm| {
@@ -145,7 +145,7 @@ struct DiscordField {
 
 #[server(SendContactForm, "/api")]
 pub async fn send_contact_form(contact_form: ContactForm) -> Result<(), ServerFnError> {
-    let webhook_url = env::var("DISCORD_WEBHOOK_URL").expect("DISCORD_WEBHOOK_URL must be set");
+    let webhook_url = std::env::var("DISCORD_WEBHOOK_URL").expect("DISCORD_WEBHOOK_URL must be set");
     let embed = DiscordEmbed {
         title: "New message".to_string(),
         description: "A new message from the contact form".to_string(),

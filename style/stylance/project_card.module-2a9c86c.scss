@@ -1,7 +1,11 @@
 .project_card-2a9c86c {
+  transform-style: preserve-3d;
   width: 100%;
-  height: 100%;
   position: relative;
+  break-inside: avoid;
+  page-break-inside: avoid;
+  margin-bottom: calc(var(--magic-margin) * 1.5);
+  display: inline-block;
 
   .project_card_flip_button-2a9c86c {
     position: absolute;
@@ -21,8 +25,7 @@
     z-index: 100;
 
     svg {
-      width: 20px;
-      height: 20px;
+      width: 26px;
       color: var(--primary-color);
     }
 
@@ -42,6 +45,7 @@
     position: relative;
     transform-style: preserve-3d;
     transition: all 0.4s var(--ease-in-out-epic);
+    width: 100%;
 
     &.flipped-2a9c86c {
       transform: rotateY(180deg);
@@ -129,6 +133,7 @@
         justify-content: center;
         align-items: center;
         flex-direction: column;
+        position: relative;
 
         .project_card_description-2a9c86c {
           position: relative;
@@ -137,6 +142,8 @@
           line-height: 1.6;
           flex: 1;
           display: flex;
+          flex-direction: column;
+          width: 100%;
 
           &::after {
             border-radius: 10px;
@@ -146,6 +153,31 @@
             height: 3px;
             width: 80%;
             background: linear-gradient(to left, transparent, var(--primary-color));
+          }
+
+          summary {
+            cursor: pointer;
+            margin: 0;
+            transition: all 0.3s var(--ease-in-out-epic);
+          }
+
+          &[open] summary {
+            margin-bottom: 0.5rem;
+          }
+
+          p {
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            margin: 0;
+            transition: max-height 0.5s var(--ease-in-out-epic),
+            opacity 0.4s var(--ease-in-out-epic);
+          }
+
+          &[open] p {
+            max-height: 600px;
+            opacity: 1;
+            margin-top: 0.5rem;
           }
         }
 
@@ -159,11 +191,6 @@
           justify-content: center;
           transition: all 0.3s var(--ease-in-out-epic);
           z-index: 10;
-
-          svg, img {
-            width: 40px;
-            height: 40px;
-          }
         }
       }
     }
@@ -176,18 +203,19 @@
       align-items: center;
       flex-direction: column;
       padding: var(--magic-margin);
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
 
       .project_card_stack-2a9c86c {
         display: flex;
         flex-wrap: wrap;
         gap: 8px;
-        margin-top: auto;
-        padding-top: 1rem;
 
-        img {
+        img{
           width: 48px;
-          height: 48px;
-          margin: 10px;
+          height: auto;
         }
       }
     }
@@ -195,7 +223,6 @@
     .project_card_front-2a9c86c,
     .project_card_back-2a9c86c {
       width: 100%;
-      position: absolute;
       -webkit-backface-visibility: hidden;
       backface-visibility: hidden;
       border-radius: 12px;
@@ -207,6 +234,7 @@
 
 @media (max-width: 600px) {
   .project_card-2a9c86c {
+    margin-bottom: var(--magic-margin);
 
     .project_card_header-2a9c86c {
       flex-direction: column;
@@ -244,6 +272,7 @@
     }
 
     .project_card_tech_stack-2a9c86c {
+
       .tech_badge-2a9c86c {
         padding: 8px 16px;
         font-size: 1rem;

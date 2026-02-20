@@ -5,4 +5,5 @@ pub mod introduction_view;
 pub mod projects_view;
 pub mod recommendations_view;
 pub mod technical_stacks_view;
-pub(crate) mod website_performances_view;
+pub mod website_performances_view;
+pub mod svg_icon;

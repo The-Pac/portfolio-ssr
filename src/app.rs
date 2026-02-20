@@ -1,6 +1,6 @@
 use crate::error_template::{AppError, ErrorTemplate};
 use leptos::prelude::*;
-use leptos_meta::{provide_meta_context, Link, MetaTags, Script, Style, Stylesheet, Title};
+use leptos_meta::{provide_meta_context, Link, Meta, MetaTags, Script, Style, Stylesheet, Title};
 use leptos_router::components::RoutingProgress;
 use leptos_router::{
     components::{Route, Router, Routes},
@@ -9,29 +9,86 @@ use leptos_router::{
 use std::time::Duration;
 
 pub fn shell(options: LeptosOptions) -> impl IntoView {
+
     view! {
         <!DOCTYPE html>
         <html lang="fr">
             <head>
-                <meta name="description" content="Portfolio de Baptiste Arsac - Jeune développeur Full \
+                <Meta name="description" content="Portfolio de Baptiste Arsac - Jeune développeur Full \
                 Stack motivé basé à Montpellier. Créateur d'applications web modernes et sites sur mesure.\
-                 Disponible pour CDI,freelance ou création de votre projet digital. Explorez mes réalisations !"/>
-                <meta http_equiv="Content-Type" content="charset=utf-8"/>
-                <meta name="viewport" content="width=device-width, initial-scale=1"/>
-                <meta name="author" content="Arsac Baptiste"/>
-                <meta name="theme-color" content="#214f46"/>
+                 Disponible pour CDI,freelance ou création de votre projet digital."/>
+        
+                <Meta http_equiv="Content-Type" content="charset=utf-8"/>
+                <Meta name="viewport" content="width=device-width, initial-scale=1"/>
+                <Meta name="author" content="Arsac Baptiste"/>
+                <Meta name="theme-color" content="#214f46"/>
+                <Meta name="robots" content="index, follow"/>
 
-                <meta property="og:title" content="Portfolio – Arsac Baptiste"/>
-                <meta property="og:description" content="Développeur Full Stack à Montpellier, \
+                <Meta property="og:title" content="Portfolio – Arsac Baptiste"/>
+                <Meta property="og:description" content="Développeur Full Stack à Montpellier, \
                 spécialisé en applications web modernes et sites sur mesure. Découvrez mes projets." />
-                <meta property="og:type" content="website"/>
-                <meta property="og:url" content="https://www.arsac-baptiste.dev"/>
-                <meta property="og:image" content="https://www.arsac-baptiste.dev/image/me.jpg"/>
+                <Meta property="og:type" content="website"/>
+                <Meta property="og:url" content="https://www.arsac-baptiste.dev"/>
+                <Meta property="og:image" content="https://www.arsac-baptiste.dev/image/me.jpg"/>
 
                 <Link rel="icon" href="/favicon.ico" type_="image/x-icon"/>
                 <AutoReload options=options.clone() />
                 <HydrationScripts options/>
                 <MetaTags/>
+                <Script type_="application/ld+json">
+                    {r#"
+                    [
+                        {
+                            "@context": "https://schema.org",
+                            "@type": "Person",
+                            "name": "Arsac Baptiste",
+                            "url": "https://arsac-baptiste.dev",
+                            "image": "https://arsac-baptiste.dev/images/me.webp",
+                            "jobTitle": "Développeur Full Stack",
+                            "address": {
+                                "@type": "PostalAddress",
+                                "addressLocality": "Montpellier",
+                                "addressCountry": "FR"
+                            },
+                            "sameAs": [
+                                "https://fr.linkedin.com/in/baptiste-arsac",
+                                "https://github.com/baptiste-arsac"
+                            ]
+                        },
+                        {
+                            "@context": "https://schema.org",
+                            "@type": "WebSite",
+                            "name": "Portfolio de Arsac Baptiste",
+                            "url": "https://arsac-baptiste.dev",
+                            "author": {
+                                "@type": "Person",
+                                "name": "Arsac Baptiste"
+                            },
+                            "publisher": {
+                                "@type": "Organization",
+                                "name": "Arsac Baptiste",
+                                "url": "https://arsac-baptiste.dev",
+                                "logo": {
+                                    "@type": "ImageObject",
+                                    "url": "https://arsac-baptiste.dev/favicon.ico"
+                                }
+                            }
+                        },
+                        {
+                            "@context": "https://schema.org",
+                            "@type": "BreadcrumbList",
+                            "itemListElement": [
+                                {
+                                    "@type": "ListItem",
+                                    "position": 1,
+                                    "name": "Accueil",
+                                    "item": "https://arsac-baptiste.dev"
+                                }
+                            ]
+                        }
+                    ]
+                    "#}
+                </Script>
             </head>
             <body>
                 <App/>
@@ -49,9 +106,9 @@ pub fn App() -> impl IntoView {
     view! {
         <Stylesheet id="leptos" href="/pkg/portfolio-ssr.css"/>
         <Style>{include_str!("critical.scss")}</Style>
-        <Script type_="module">{include_str!("web-vitals-init.js")}</Script>
+        <Script type_="module" async_="true">{include_str!("web-vitals-init.js")}</Script>
 
-        <Title text="Baptiste Portfolio"/>
+        <Title text="Baptiste Arsac Portfolio"/>
 
         <Router set_is_routing>
             <div class=style::routing_progress>
@@ -78,10 +135,11 @@ fn HomePage() -> impl IntoView {
     use crate::components::career_map_view::CareerMap;
     use crate::components::contact_view::ContactForm;
     use crate::components::introduction_view::Introduction;
-    use crate::components::recommendations_view::Recommendation;
     use crate::components::technical_stacks_view::TechnicalStack;
     use crate::components::website_performances_view::WebsitePerformance;
     use crate::components::projects_view::Project;
+    use crate::components::recommendations_view::Recommendation;
+
     stylance::import_style!(style, "app.module.scss");
 
     view! {
