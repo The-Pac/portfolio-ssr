@@ -1,4 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" viewBox="0 0 512 512">
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" viewBox="0 0 512 512" aria-label="Window icon">
+    <title>Window icon</title>
   <path d="M242.526 40.421 512 0v239.832H242.526z" style="fill:#90c300"/>
 	<path d="m0 75.453 206.596-30.541v197.614H0z" style="fill:#f8672c"/>
 	<path d="M242.526 471.579 512 512V278.456H242.526z" style="fill:#ffc400"/>

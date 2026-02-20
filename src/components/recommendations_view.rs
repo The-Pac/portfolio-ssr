@@ -136,6 +136,7 @@ pub fn Recommendation() -> impl IntoView {
                                             let is_selected = move || offset() == 0;
 
                                             let logo_path = recommendation.logo.path.clone();
+                                            let logo_name = recommendation.logo.name.clone();
                                             let author = recommendation.author.clone();
                                             let texte = recommendation.texte.clone();
 
@@ -164,7 +165,7 @@ pub fn Recommendation() -> impl IntoView {
                                                     <div class=style::item_content>
                                                         <img
                                                             src=logo_path.clone()
-                                                            alt={format!("une recommendation de la part de {}",author.clone().unwrap_or_default())}
+                                                            alt=format!("Icône pour {}",logo_name.clone())
                                                             class=style::logo
                                                             loading="lazy"
                                                             decoding="async"

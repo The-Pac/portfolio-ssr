@@ -1,47 +1,34 @@
+$color_1: var(--brand-color);
+
 .introduction {
   min-height: 100dvh;
   display: flex;
   align-items: center;
   padding-left: 5vw;
-  transition: min-height 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-
+  transition: min-height .8s cubic-bezier(0.4,0,0.2,1);
   .introduction_content {
     width: 100%;
-
     .introduction_greeting {
       font-size: 3.5rem;
-      color: var(--third-color);
+      color: $color_1;
       font-weight: 1000;
       margin: 0;
     }
-
     .introduction_line_1 {
       font-size: 2.1rem;
       margin: 0;
     }
-
     .introduction_line_2 {
       font-size: 1.7rem;
       margin: 0;
     }
-
     .introduction_line_3 {
       font-size: 1.7rem;
       margin: 0;
     }
   }
-
-
-  &.scrolled {
-    min-height: 40dvh;
-
-    @media (max-width: 600px) {
-      min-height: 100dvh;
-    }
-  }
-
   .introduction_social_media {
-    filter: drop-shadow(0px 4px 12px rgba(0, 0, 0, 0.3));
+    filter: drop-shadow(0px 4px 12px #0000004d);
     justify-content: center;
     display: flex;
     align-items: center;
@@ -50,25 +37,29 @@
     position: absolute;
     top: 5%;
     right: 5%;
-
     .social_media_link {
       width: 40px;
       height: 40px;
       margin: 10px;
-      transition: transform 0.3s ease-in-out;
-
+      transition: transform .3s ease-in-out;
       .social_media_img {
         width: 40px;
         height: 40px;
       }
-
       &:hover {
-         transform: scale(1.1);
-       }
+        transform: scale(1.1);
+      }
     }
   }
 }
-
+.introduction.scrolled {
+  min-height: 40dvh;
+}
+@media (max-width: 600px) {
+  .introduction.scrolled {
+    min-height: 100dvh;
+  }
+}
 @media (min-width: 600px) {
   .intro_container {
     padding-left: 10vw;

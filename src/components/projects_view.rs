@@ -130,6 +130,7 @@ fn ProjectCard(project: models::project::Project) -> impl IntoView {
                                     view! {
                                         <SvgIcon
                                             src=tech.logo_path.clone()
+                                             alt=format!("{} icon", tech.name)
                                         />
                                     }
                                     .into_any()
@@ -138,7 +139,7 @@ fn ProjectCard(project: models::project::Project) -> impl IntoView {
                                         <img
                                             src=format!("{}", tech.logo_path)
                                             alt=format!("Icône pour {}", tech.name)
-                                            title=format!("{} ({})", tech.name, tech.category_title)
+                                            title=format!("{}", tech.name)
                                             loading="lazy"
                                             decoding="async"
                                         />

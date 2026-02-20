@@ -1,4 +1,3 @@
-
 #[cfg(feature = "ssr")]
 #[tokio::main]
 async fn main() {
@@ -13,10 +12,10 @@ async fn main() {
     use std::path::PathBuf;
     use std::time::Duration;
     use tower_http::compression::CompressionLayer;
+    use tower_http::services::ServeDir;
     use tower_http::trace::TraceLayer;
     use tracing::Span;
     use tracing_subscriber::EnvFilter;
-    use tower_http::services::ServeDir;
 
     tracing_subscriber::fmt()
         .with_env_filter(EnvFilter::from_default_env().add_directive("info".parse().unwrap()))
@@ -46,6 +45,20 @@ async fn main() {
         .layer(
             TraceLayer::new_for_http()
                 .make_span_with(|req: &Request<_>| {
+                    let path = req.uri().path();
+
+                    let is_asset = path.starts_with("/logo/")
+                        || path.starts_with("/pkg/")
+                        || path.ends_with(".svg")
+                        || path.ends_with(".webp")
+                        || path.ends_with(".js")
+                        || path.ends_with(".css")
+                        || path.ends_with(".wasm");
+
+                    if is_asset {
+                        return Span::none();
+                    }
+
                     let ip = req
                         .headers()
                         .get("x-forwarded-for")
@@ -55,23 +68,16 @@ async fn main() {
                     tracing::info_span!(
                         "http",
                         method = %req.method(),
-                        uri = %req.uri().path(),
+                        uri = %path,
                         ip = %ip,
                     )
                 })
                 .on_response(|res: &Response<_>, latency: Duration, _span: &Span| {
                     let millis = latency.as_millis();
                     if millis > 1000 {
-                        tracing::warn!(
-                            status = %res.status(),
-                            latency_ms = millis,
-                            "slow request"
-                        );
+                        tracing::warn!(status = %res.status(), latency_ms = millis, "slow request");
                     } else {
-                        tracing::info!(
-                            status = %res.status(),
-                            latency_ms = millis,
-                        );
+                        tracing::info!(status = %res.status(), latency_ms = millis);
                     }
                 }),
         );

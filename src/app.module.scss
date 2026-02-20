@@ -5,8 +5,8 @@
 }
 
 .separator{
-  margin: var(--magic-margin) 0;
+  margin: var(--spacing-base) 0;
   border: none;
   height: 3px;
-  background: linear-gradient(to left, transparent, var(--primary-color), transparent);
+  background: linear-gradient(to left, transparent, var(--accent-line-color), transparent);
 }

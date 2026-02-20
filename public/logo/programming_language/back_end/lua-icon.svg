@@ -1,4 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-label="Lua icon">
+    <title>Lua icon</title>
     <g transform="translate(-.809 -.8)scale(.06928)">
         <path fill="none" stroke="gray" stroke-dasharray="39.852" stroke-width="10.597" d="M880.4 266.18A456.67 456.67 0 1 1 722.22 90.51"/>
         <circle cx="473.5" cy="473.5" r="353.21" fill="navy"/>

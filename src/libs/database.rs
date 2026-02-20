@@ -18,6 +18,10 @@ async fn establish_connection() -> SqlitePool {
 
     let pool = SqlitePool::connect_lazy(&database_url).expect("Failed to create database pool");
 
+    sqlx::query("PRAGMA journal_mode = WAL").execute(&pool).await.expect("Failed to set journal_mode");
+    sqlx::query("PRAGMA synchronous = NORMAL").execute(&pool).await.expect("Failed to set synchronous");
+    sqlx::query("PRAGMA foreign_keys = ON").execute(&pool).await.expect("Failed to set foreign_keys");
+
     println!("Running database migrations...");
     sqlx::migrate!("./migrations")
         .run(&pool)

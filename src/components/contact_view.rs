@@ -16,12 +16,22 @@ pub struct ContactForm {
 pub fn ContactForm() -> impl IntoView {
     stylance::import_style!(style, "style/contact.module.scss");
 
+
+
     let name = RwSignal::new(String::new());
     let surname = RwSignal::new(String::new());
     let email = RwSignal::new(String::new());
     let company = RwSignal::new(String::new());
     let message = RwSignal::new(String::new());
     let status: RwSignal<Option<String>> = RwSignal::new(None);
+
+    let is_ready_to_send = Memo::new(move |_| {
+        !name.get().trim().is_empty()
+            && !surname.get().trim().is_empty()
+            && !email.get().trim().is_empty()
+            && email.get().contains('@')
+            && !message.get().trim().is_empty()
+    });
 
     let send_form = Action::new(|contact_form: &ContactForm| {
         let contact_form = contact_form.clone();
@@ -51,7 +61,7 @@ pub fn ContactForm() -> impl IntoView {
     Effect::new(move || {
         if let Some(result) = send_form.value().get() {
             match result {
-                Ok(_0) => {
+                Ok(_) => {
                     status.set(Some("Message sent!".to_string()));
                     name.set(String::new());
                     surname.set(String::new());
@@ -59,7 +69,7 @@ pub fn ContactForm() -> impl IntoView {
                     message.set(String::new());
                     company.set(String::new());
                 }
-                Err(_0) => {
+                Err(_) => {
                     status.set(Some("Failed to send message".to_string()));
                 }
             }
@@ -114,7 +124,7 @@ pub fn ContactForm() -> impl IntoView {
                     required=true>
                 </textarea>
 
-                <button id=5 type="submit" class=style::contact_form_send_button>
+                <button id=5 type="submit" disabled=move || !is_ready_to_send.get() || send_form.pending().get() class=style::contact_form_send_button>
                     <b>"Envoyer"</b>
                 </button>
             </form>

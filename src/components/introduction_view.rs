@@ -85,7 +85,7 @@ pub fn Introduction() -> impl IntoView {
                     .map(|social_media |{
                         view! {
                             <a class=style::social_media_link href=social_media.url>
-                                <SvgIcon class=style::social_media_img.to_string() src=social_media.image.to_string()/>
+                                <SvgIcon class=style::social_media_img.to_string() src=social_media.image.to_string() alt=format!("{}", social_media.alt)/>
                             </a>
                         }
                     })
@@ -93,7 +93,7 @@ pub fn Introduction() -> impl IntoView {
                 }
             </div>
             <div class=style::introduction_content>
-                <strong class=style::introduction_greeting>"Salut,"</strong>
+                <span class=style::introduction_greeting>"Salut,"</span>
                 <h1 class=style::introduction_line_1>
                     "Je suis Baptiste Arsac."<br/>
                     <span class=style::introduction_line_2>

@@ -1,4 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 50">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 50" aria-label="Refinery icon">
+    <title>Refinery icon</title>
     <defs>
         <clipPath id="a" clipPathUnits="userSpaceOnUse">
             <circle cx="141.622" cy="124.801" r="20.463" style="opacity:1;fill:none;fill-opacity:1;stroke:#190119;stroke-width:1.30189;stroke-linecap:round;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:normal"/>

@@ -1,4 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid" viewBox="0 0 6.554 6.555">
+<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid" viewBox="0 0 6.554 6.555" aria-label="Sqlite icon">
+    <title>Sqlite icon</title>
     <defs>
         <linearGradient id="a" x1="2.983" x2="2.983" y1=".53" y2="4.744" gradientUnits="userSpaceOnUse">
             <stop offset="0%" stop-color="#97d9f6"/>

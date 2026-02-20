@@ -76,7 +76,6 @@ fn TechnicalStackCard(
 
     let is_open = RwSignal::new(false);
 
-
     view! {
        <div
             class={move || {
@@ -99,20 +98,21 @@ fn TechnicalStackCard(
                         .map(|technology_with_logo: TechnologyWithLogo| {
                             if technology_with_logo.logo_path.ends_with(".svg") {
                                 view! {
-                                    <SvgIcon
-                                        src=technology_with_logo.logo_path.clone()
-                                    />
+                                        <SvgIcon
+                                            src=technology_with_logo.logo_path.clone()
+                                            alt=format!("{} icon", technology_with_logo.name)
+                                        />
                                 }
                                 .into_any()
                             } else {
                                 view! {
-                                    <img
-                                        src=format!("{}", technology_with_logo.logo_path)
-                                        alt=format!("Icône pour {}", technology_with_logo.name)
-                                        title=format!("{} ({})", technology_with_logo.name, technology_with_logo.category_title)
-                                        loading="lazy"
-                                        decoding="async"
-                                    />
+                                        <img
+                                            src=format!("{}", technology_with_logo.logo_path)
+                                            alt=format!("Icône pour {}", technology_with_logo.name)
+                                            title=format!("{} ({})", technology_with_logo.name, technology_with_logo.category_title)
+                                            loading="lazy"
+                                            decoding="async"
+                                        />
                                 }
                                 .into_any()
                             }

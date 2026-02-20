@@ -6,6 +6,8 @@ use wasm_bindgen_futures::spawn_local;
 pub fn SvgIcon(
     src: String,
     #[prop(optional)]
+    alt: Option<String>,
+    #[prop(optional)]
     class: Option<String>,
     #[prop(optional)]
     style: Option<String>,
@@ -16,6 +18,7 @@ pub fn SvgIcon(
         let src = src.clone();
         let class = class.clone();
         let style = style.clone();
+        let alt = alt.clone();
         move |_| {
             #[cfg(feature = "hydrate")]
             {
@@ -23,12 +26,14 @@ pub fn SvgIcon(
                     let src = src.clone();
                     let class = class.clone();
                     let style = style.clone();
+                    let alt = alt.clone();
                     async move {
                         if let Ok(content) = fetch_svg(&src).await {
                             let modified = inject_svg_attrs(
                                 &content,
                                 class,
                                 style,
+                                alt
                             );
                             svg_content.set(modified);
                         }
@@ -46,8 +51,14 @@ pub fn SvgIcon(
     }
 }
 
-fn inject_svg_attrs(svg: &str, class: Option<String>, style: Option<String>) -> String {
+fn inject_svg_attrs(svg: &str, class: Option<String>, style: Option<String>, alt: Option<String>,) -> String {
     let mut result = svg.to_string();
+
+    if let Some(ref a) = alt {
+        if let (Some(start), Some(end)) = (result.find("<title>"), result.find("</title>")) {
+            result.replace_range(start..end + 8, &format!("<title>{}</title>", a));
+        }
+    }
 
     if let Some(pos) = result.find("<svg") {
         let insert_pos = pos + 4;
