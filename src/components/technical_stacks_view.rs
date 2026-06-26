@@ -107,9 +107,11 @@ fn TechnicalStackCard(
                             } else {
                                 view! {
                                         <img
+                                            width="200"
+                                            height="200"
                                             src=format!("{}", technology_with_logo.logo_path)
                                             alt=format!("Icône pour {}", technology_with_logo.name)
-                                            title=format!("{} ({})", technology_with_logo.name, technology_with_logo.category_title)
+                                            title=format!("Icône pour {}", technology_with_logo.name)
                                             loading="lazy"
                                             decoding="async"
                                         />

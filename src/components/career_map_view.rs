@@ -398,6 +398,7 @@ pub fn CareerMap() -> impl IntoView {
                     on:touchend=handle_touch_end
                     on:touchcancel=handle_touch_end
                     role="button"
+                    aria-label="Canvas de la carte"
                     tabindex="0">
                     <Suspense fallback=move || view! { <p>"Chargement de ma carrière..."</p> }>
                         {move || {
@@ -434,7 +435,7 @@ pub fn CareerMap() -> impl IntoView {
                         event.stop_propagation();
                         exit_fullscreen(());
                     }
-                    aria-label="Exit fullscreen"
+                    aria-label="Sortir du plein écran"
                 >
                     "Sortir"
                 </button>

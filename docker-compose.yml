@@ -27,7 +27,8 @@ services:
       dockerfile: Dockerfile.caddy
     environment:
       - DOMAIN_NAME=${DOMAIN_NAME}
-    container_name: caddy
+      - DOMAIN_NAME_WWW=${DOMAIN_NAME_WWW}
+    container_name: portfolio-ssr-caddy
     restart: unless-stopped
     ports:
       - "80:80"

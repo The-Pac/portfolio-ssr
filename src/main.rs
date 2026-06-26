@@ -1,3 +1,5 @@
+
+
 #[cfg(feature = "ssr")]
 #[tokio::main]
 async fn main() {
@@ -16,6 +18,7 @@ async fn main() {
     use tower_http::trace::TraceLayer;
     use tracing::Span;
     use tracing_subscriber::EnvFilter;
+    use http::HeaderValue;
 
     tracing_subscriber::fmt()
         .with_env_filter(EnvFilter::from_default_env().add_directive("info".parse().unwrap()))
@@ -42,6 +45,12 @@ async fn main() {
         )
         .with_state(leptos_options)
         .layer(CompressionLayer::new())
+        .layer(
+            tower_http::set_header::SetResponseHeaderLayer::if_not_present(
+                http::header::CACHE_CONTROL,
+                HeaderValue::from_static("public, max-age=2592000"),
+            ),
+        )
         .layer(
             TraceLayer::new_for_http()
                 .make_span_with(|req: &Request<_>| {

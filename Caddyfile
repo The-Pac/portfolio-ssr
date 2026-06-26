@@ -1,4 +1,4 @@
-{$DOMAIN_NAME} {
+{$DOMAIN_NAME}, {$DOMAIN_NAME_WWW}  {
     reverse_proxy portfolio:8080
 
     @static {

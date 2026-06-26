@@ -124,7 +124,7 @@ pub fn ContactForm() -> impl IntoView {
                     required=true>
                 </textarea>
 
-                <button id=5 type="submit" disabled=move || !is_ready_to_send.get() || send_form.pending().get() class=style::contact_form_send_button>
+                <button id=5 type="submit" aria-label="Envoyer le fomulaire de contact" disabled=move || !is_ready_to_send.get() || send_form.pending().get() class=style::contact_form_send_button>
                     <b>"Envoyer"</b>
                 </button>
             </form>

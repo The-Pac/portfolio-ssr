@@ -1,8 +1,8 @@
-use leptos::lazy;
 use crate::models::database_error::{ModelError, ProjectError};
-use sqlx::SqlitePool;
 use crate::models::logo::Logo;
-use crate::models::recommandation::{RecommendationWithLogo, RecommendationRow};
+use crate::models::recommandation::{RecommendationRow, RecommendationWithLogo};
+use leptos::lazy;
+use sqlx::SqlitePool;
 
 #[lazy]
 pub async fn get_all_recommendations(
@@ -22,9 +22,9 @@ pub async fn get_all_recommendations(
         ORDER BY r.id DESC
         "#,
     )
-        .fetch_all(connection_database)
-        .await
-        .map_err(|e| ModelError::DatabaseError(e.into()))?;
+    .fetch_all(connection_database)
+    .await
+    .map_err(|e| ModelError::DatabaseError(e.into()))?;
 
     let recommendations = recommendation_rows
         .into_iter()

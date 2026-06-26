@@ -2,5 +2,5 @@ User-agent: googlebot-image
 Disallow: /
 User-agent: *
 Disallow: 
-Disallow: /image/me.jpg
+Disallow: /image/me.webp
 Sitemap: https://arsac-baptiste.dev/sitemap.xml

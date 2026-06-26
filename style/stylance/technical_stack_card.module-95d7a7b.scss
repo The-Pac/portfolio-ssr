@@ -1,6 +1,6 @@
+@charset "UTF-8";
 $color_1: var(--bg-surface);
 
-@charset "UTF-8";
 .stack_card-95d7a7b {
   position: relative;
   height: auto;
@@ -13,7 +13,9 @@ $color_1: var(--bg-surface);
   box-shadow: 0 4px 15px #0a191c26;
   background: var(--card-gradient);
   overflow: visible;
+
   .stack_card_title-95d7a7b {
+    font-size: calc(0.8 * var(--font-size-subheading));
     position: relative;
     z-index: 2;
     font-weight: 700;
@@ -29,6 +31,7 @@ $color_1: var(--bg-surface);
     padding-left: var(--spacing-base);
     padding-right: var(--spacing-base);
     user-select: none;
+
     &::after {
       content: "▼";
       position: absolute;
@@ -37,33 +40,39 @@ $color_1: var(--bg-surface);
       opacity: .6;
       transition: transform .4s var(--ease-in-out-epic);
     }
+
     &:hover {
       opacity: .9;
     }
+
     &:active {
       transform: scale(0.98);
     }
   }
+
   .stack_card_content-95d7a7b {
     max-height: 0;
     opacity: 0;
     overflow: hidden;
     transition: all .5s var(--ease-in-out-epic);
     padding: 0 20px;
+
     .stack_card_description-95d7a7b {
       line-height: 1.5;
       margin: 0 0 15px;
       color: $color_1;
       opacity: .9;
     }
+
     .stack_card_logos-95d7a7b {
       display: grid;
-      grid-template-columns: repeat(auto-fit,minmax(40px,1fr));
+      grid-template-columns: repeat(auto-fit, minmax(40px, 1fr));
       gap: 15px;
       align-items: center;
       justify-items: center;
       padding-bottom: 20px;
       transition: padding .5s var(--ease-in-out-epic);
+
       img {
         width: 35px;
         height: auto;
@@ -72,30 +81,36 @@ $color_1: var(--bg-surface);
     }
   }
 }
+
 .stack_card-95d7a7b.open-95d7a7b {
   z-index: 10;
   box-shadow: 0 8px 30px #214f464d;
+
   .stack_card_title-95d7a7b {
     &::after {
       transform: rotate(180deg);
     }
   }
+
   .stack_card_content-95d7a7b {
     max-height: 700px;
     opacity: 1;
     padding: 15px 20px 20px;
   }
 }
+
 @media (max-width: 600px) {
   .stack_card-95d7a7b {
     .stack_card_content-95d7a7b {
       .stack_card_logos-95d7a7b {
-        grid-template-columns: repeat(auto-fit,minmax(32px,1fr));
+        grid-template-columns: repeat(auto-fit, minmax(32px, 1fr));
         gap: 12px;
+
         img {
           width: 32px;
           height: 32px;
         }
+
         span {
           width: 32px;
           height: 32px;
@@ -104,16 +119,19 @@ $color_1: var(--bg-surface);
     }
   }
 }
+
 @media (min-width: 1024px) {
   .stack_card-95d7a7b {
     .stack_card_content-95d7a7b {
       .stack_card_logos-95d7a7b {
-        grid-template-columns: repeat(auto-fit,minmax(48px,1fr));
+        grid-template-columns: repeat(auto-fit, minmax(48px, 1fr));
         gap: 20px;
+
         img {
           width: 56px;
           height: 56px;
         }
+
         span {
           width: 56px;
           height: 56px;

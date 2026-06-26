@@ -133,8 +133,9 @@ button {
   border: none;
   transition: filter .5s;
 
-  &:disabled {
-    transition: filter .5s;
-    filter: saturate(0%);
-  }
+
+}
+button:disabled {
+  transition: filter .5s;
+  filter: saturate(0%);
 }

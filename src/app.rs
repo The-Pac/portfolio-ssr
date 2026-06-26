@@ -14,9 +14,7 @@ pub fn shell(options: LeptosOptions) -> impl IntoView {
         <!DOCTYPE html>
         <html lang="fr">
             <head>
-                <Meta name="description" content="Portfolio de Baptiste Arsac - Jeune développeur Full \
-                Stack motivé basé à Montpellier. Créateur d'applications web modernes et sites sur mesure.\
-                 Disponible pour CDI,freelance ou création de votre projet digital."/>
+                <Meta name="description" content="Développeur Full Stack à Montpellier, je crée des applications modernes et des sites web sur mesure. Disponible en CDI, freelance ou pour votre projet digital."/>
         
                 <Meta http_equiv="Content-Type" content="charset=utf-8"/>
                 <Meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -29,7 +27,7 @@ pub fn shell(options: LeptosOptions) -> impl IntoView {
                 spécialisé en applications web modernes et sites sur mesure. Découvrez mes projets." />
                 <Meta property="og:type" content="website"/>
                 <Meta property="og:url" content="https://www.arsac-baptiste.dev"/>
-                <Meta property="og:image" content="https://www.arsac-baptiste.dev/image/me.jpg"/>
+                <Meta property="og:image" content="https://www.arsac-baptiste.dev/image/me.webp"/>
 
                 <Link rel="icon" href="/favicon.ico" type_="image/x-icon"/>
                 <AutoReload options=options.clone() />
@@ -43,7 +41,7 @@ pub fn shell(options: LeptosOptions) -> impl IntoView {
                             "@type": "Person",
                             "name": "Arsac Baptiste",
                             "url": "https://arsac-baptiste.dev",
-                            "image": "https://arsac-baptiste.dev/images/me.webp",
+                            "image": "https://arsac-baptiste.dev/image/me.webp",
                             "jobTitle": "Développeur Full Stack",
                             "address": {
                                 "@type": "PostalAddress",
@@ -54,6 +52,24 @@ pub fn shell(options: LeptosOptions) -> impl IntoView {
                                 "https://fr.linkedin.com/in/baptiste-arsac",
                                 "https://github.com/baptiste-arsac"
                             ]
+                        },
+                        {
+                          "@context": "https://schema.org",
+                          "@type": "Organization",
+                          "name": "Arsac Baptiste",
+                          "url": "https://arsac-baptiste.dev",
+                          "logo": {
+                            "@type": "ImageObject",
+                            "url": "https://arsac-baptiste.dev/favicon.ico"
+                          },
+                          "founder": {
+                            "@type": "Person",
+                            "name": "Arsac Baptiste"
+                          },
+                          "sameAs": [
+                            "https://fr.linkedin.com/in/baptiste-arsac",
+                            "https://github.com/baptiste-arsac"
+                          ]
                         },
                         {
                             "@context": "https://schema.org",
@@ -105,11 +121,14 @@ pub fn App() -> impl IntoView {
 
     view! {
         <Stylesheet id="leptos" href="/pkg/portfolio-ssr.css"/>
-        <Style>{include_str!("critical.scss")}</Style>
-        <Script type_="module" async_="true">{include_str!("web-vitals-init.js")}</Script>
+        <Style>{include_str!("critical.css")}</Style>
+        <Script type_="module">{include_str!("web-vitals-init.js")}</Script>
 
-        <Title text="Baptiste Arsac Portfolio"/>
-
+        <Title text="Baptiste Arsac - Développeur Full-Stack"/>
+        <Link
+            rel="canonical"
+            href="https://arsac-baptiste.dev/"
+        />
         <Router set_is_routing>
             <div class=style::routing_progress>
                 <RoutingProgress is_routing max_time=Duration::from_millis(250)/>
