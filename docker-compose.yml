@@ -43,17 +43,6 @@ services:
         condition: service_healthy
     networks:
       - web
-
-  uptime-kuma:
-    image: louislam/uptime-kuma:2
-    container_name: uptime-kuma
-    restart: unless-stopped
-    volumes:
-      - uptime_data:/app/data
-    ports:
-      - "3001:3001"
-    networks:
-      - web
 networks:
   web:
     driver: bridge
@@ -61,4 +50,3 @@ networks:
 volumes:
   caddy_data:
   caddy_config:
-  uptime_data:
