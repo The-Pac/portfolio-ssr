@@ -16,7 +16,7 @@ VALUES
 (9, 'logo/programming_language/front_end/vuejs-icon.svg', 'Vue.js'),
 (10, 'logo/programming_language/front_end/css-icon.svg', 'CSS'),
 (11, 'logo/programming_language/front_end/html5-icon.svg', 'HTML5'),
-(40, 'logo/programming_language/front_end/qwik.svg', 'Qwik'),
+    (40, 'logo/programming_language/front_end/qwik.svg', 'Qwik'),
 
 -- Protocoles
 (12, 'logo/programming_language/protocol/rest-api-icon.svg', 'REST API'),

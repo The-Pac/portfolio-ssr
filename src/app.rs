@@ -123,7 +123,7 @@ pub fn App() -> impl IntoView {
         <Stylesheet id="leptos" href="/pkg/portfolio-ssr.css"/>
         <Style>{include_str!("critical.css")}</Style>
         <Script type_="module">{include_str!("web-vitals-init.js")}</Script>
-
+        <Script defer="true" src="https://arsac-baptiste.dev/umami/script.js" attr:data-website-id="b34ac937-30e8-4bb2-b908-ac27455ad56e"></Script>
         <Title text="Baptiste Arsac - Développeur Full-Stack"/>
         <Link
             rel="canonical"
