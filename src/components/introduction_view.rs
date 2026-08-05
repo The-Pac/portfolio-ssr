@@ -7,7 +7,9 @@ use crate::components::svg_icon::SvgIcon;
 
 #[component]
 pub fn Introduction() -> impl IntoView {
-    stylance::import_style!(style, "style/introduction.module.scss");
+    stylance::import_style!(
+        #[allow(dead_code)]
+        style, "style/introduction.module.scss");
 
 
     let developper_types = vec!["Front-End.", "Back-End.", "Full-stack."];
@@ -97,7 +99,7 @@ pub fn Introduction() -> impl IntoView {
                 <h1 class=style::introduction_line_1>
                     "Je suis Baptiste Arsac."<br/>
                     <span class=style::introduction_line_2>
-                        "Un développeur "{move || developper_type_text}
+                        "Un développeur "{move || developper_type_text.get()}
                     </span>
                 </h1>
                 <Show when=move || developper_type_text.get() == developper_types[developper_types.len()-1]>

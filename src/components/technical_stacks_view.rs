@@ -12,7 +12,9 @@ type TechnologiesResourceType = LocalResource<(
 
 #[component]
 pub fn TechnicalStack() -> impl IntoView {
-    stylance::import_style!(style, "style/technical_stack.module.scss");
+    stylance::import_style!(
+        #[allow(dead_code)]
+        style, "style/technical_stack.module.scss");
 
     let technologies_resource: TechnologiesResourceType = LocalResource::new(|| async {
         (
@@ -72,7 +74,9 @@ fn TechnicalStackCard(
     technology_category: TechnologyCategory,
     technologies_with_logo: Vec<TechnologyWithLogo>,
 ) -> impl IntoView {
-    stylance::import_style!(style, "style/technical_stack_card.module.scss");
+    stylance::import_style!(
+        #[allow(dead_code)]
+        style, "style/technical_stack_card.module.scss");
 
     let is_open = RwSignal::new(false);
 

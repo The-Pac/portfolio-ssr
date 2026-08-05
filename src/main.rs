@@ -3,7 +3,6 @@
 #[cfg(feature = "ssr")]
 #[tokio::main]
 async fn main() {
-    use axum::body::Body;
     use axum::http::{Request, Response};
     use axum::Router;
     use leptos::logging::log;
@@ -11,7 +10,6 @@ async fn main() {
     use leptos_axum::{generate_route_list, LeptosRoutes};
     use portfolio_ssr::app::*;
     use portfolio_ssr::libs::database::init_database;
-    use std::path::PathBuf;
     use std::time::Duration;
     use tower_http::compression::CompressionLayer;
     use tower_http::services::ServeDir;

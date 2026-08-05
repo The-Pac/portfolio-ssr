@@ -18,7 +18,9 @@ struct ResourceBreakdown {
 
 #[component]
 pub fn WebsitePerformance() -> impl IntoView {
-    stylance::import_style!(style, "style/website_performance.module.scss");
+    stylance::import_style!(
+        #[allow(dead_code)]
+        style, "style/website_performance.module.scss");
 
     let lcp = RwSignal::new(None::<Metric>);
     let cls = RwSignal::new(None::<Metric>);
@@ -170,7 +172,9 @@ pub fn WebsitePerformance() -> impl IntoView {
 
 #[component]
 fn MetricInline(metric: RwSignal<Option<Metric>>, unit: &'static str) -> impl IntoView {
-    stylance::import_style!(style, "style/website_performance_metric.module.scss");
+    stylance::import_style!(
+        #[allow(dead_code)]
+        style, "style/website_performance_metric.module.scss");
 
     view! {
         <span class=style::metric_inline>

@@ -14,7 +14,9 @@ pub struct ContactForm {
 }
 #[component]
 pub fn ContactForm() -> impl IntoView {
-    stylance::import_style!(style, "style/contact.module.scss");
+    stylance::import_style!(
+        #[allow(dead_code)]
+        style, "style/contact.module.scss");
 
 
 

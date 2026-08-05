@@ -6,7 +6,9 @@ use leptos::prelude::*;
 
 #[component]
 pub fn Recommendation() -> impl IntoView {
-    stylance::import_style!(style, "style/recommendation.module.scss");
+    stylance::import_style!(
+        #[allow(dead_code)]
+        style, "style/recommendation.module.scss");
 
     let recommendations_resource: LocalResource<Result<Vec<RecommendationWithLogo>, ProjectError>> =
         LocalResource::new(|| async {

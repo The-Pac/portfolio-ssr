@@ -114,7 +114,9 @@ pub fn shell(options: LeptosOptions) -> impl IntoView {
 }
 #[component]
 pub fn App() -> impl IntoView {
-    stylance::import_style!(style, "app.module.scss");
+    stylance::import_style!(
+        #[allow(dead_code)]
+        style, "app.module.scss");
     provide_meta_context();
 
     let (is_routing, set_is_routing) = signal(false);
@@ -159,7 +161,9 @@ fn HomePage() -> impl IntoView {
     use crate::components::projects_view::Project;
     use crate::components::recommendations_view::Recommendation;
 
-    stylance::import_style!(style, "app.module.scss");
+    stylance::import_style!(
+        #[allow(dead_code)]
+        style, "app.module.scss");
 
     view! {
         <Introduction/>

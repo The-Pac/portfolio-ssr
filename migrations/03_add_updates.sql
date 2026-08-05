@@ -12,9 +12,19 @@ VALUES
         (
             SELECT json_group_array(id)
             FROM technology
-            WHERE name IN ('Rust', 'Leptos', 'Axum', 'Tokio', 'Tauri')
+            WHERE name IN ('Leptos', 'Rust', 'Axum', 'SQLite', 'Tokio', 'Tracing', 'Refinery', 'Sqlx', 'Docker')
         ),
         NULL
+    ),(
+        2,
+        'Pépix',
+        'Pépix est une plateforme web permettant de gérer et visualiser l''organisation d''une pépinière grâce à un plan interactif. Le projet facilite le suivi des opérations, la gestion des utilisateurs et la réorganisation des espaces de culture.',
+       (
+            SELECT json_group_array(id)
+            FROM technology
+            WHERE name IN ('Rust', 'Leptos', 'Axum', 'Tokio')
+        ),
+        'https://github.com/The-Pac/pepix'
     ),
     (
         2,

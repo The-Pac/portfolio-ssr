@@ -37,7 +37,9 @@ fn get_touch_center(touch1: &web_sys::Touch, touch2: &web_sys::Touch) -> (f64, f
 
 #[component]
 pub fn CareerMap() -> impl IntoView {
-    stylance::import_style!(style, "style/career_map.module.scss");
+    stylance::import_style!(
+        #[allow(dead_code)]
+        style, "style/career_map.module.scss");
 
     let load_career_ressource: LocalResource<Result<CareerNodeTree, CareerError>> =
         LocalResource::new(|| async {
@@ -446,7 +448,9 @@ pub fn CareerMap() -> impl IntoView {
 
 #[component]
 fn CareerNodeView(node: CareerNode, start_x: f64, start_y: f64, start_angle: f64) -> impl IntoView {
-    stylance::import_style!(style, "style/career_card.module.scss");
+    stylance::import_style!(
+        #[allow(dead_code)]
+        style, "style/career_card.module.scss");
 
     let show_tooltip = RwSignal::new(false);
 

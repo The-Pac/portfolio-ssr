@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourcePerFileMappings">
-    <file url="file://$PROJECT_DIR$/migrations/02_add_data.sql" value="3e5cb716-c923-4174-b64e-7638b4951be0" />
     <file url="file://$PROJECT_DIR$/src/components/career_map_view.rs" value="3e5cb716-c923-4174-b64e-7638b4951be0" />
     <file url="file://$PROJECT_DIR$/src/models/career.rs" value="3e5cb716-c923-4174-b64e-7638b4951be0" />
     <file url="file://$PROJECT_DIR$/src/services/career.rs" value="3e5cb716-c923-4174-b64e-7638b4951be0" />

@@ -1,6 +1,5 @@
 use leptos::*;
 use leptos::prelude::*;
-use wasm_bindgen_futures::spawn_local;
 
 #[component]
 pub fn SvgIcon(
@@ -22,6 +21,7 @@ pub fn SvgIcon(
         move |_| {
             #[cfg(feature = "hydrate")]
             {
+                use wasm_bindgen_futures::spawn_local;
                 spawn_local({
                     let src = src.clone();
                     let class = class.clone();

@@ -69,7 +69,8 @@ VALUES
 -- Entreprises
 (31, 'logo/company/technopli.webp', 'Technopli'),
 (32, 'logo/company/irouicome.webp', 'IrOuiCome'),
-(33, 'logo/company/astree_software.webp', 'Astrée Software')
+(33, 'logo/company/astree_software.webp', 'Astrée Software'),
+(52, 'logo/company/botanic.webp', 'Botanic')
 ;
 
 INSERT INTO technology_category (id, title, description)
@@ -155,44 +156,44 @@ VALUES (1, 'Idea'),
        (6, 'Archived')
 ;
 
-INSERT INTO project (id, status_id, title, description, stacks, url_to_project)
-VALUES (1, 2, 'portfolio-ssr',
+INSERT INTO project ( status_id, title, description, stacks, url_to_project)
+VALUES ( 2, 'portfolio-ssr',
         'Portfolio personnel créé à l''aide du rendu côté serveur (SSR) avec Leptos et Axum, illustrant les capacités modernes de développement web basées sur Rust.',
         (SELECT json_group_array(id)
          FROM technology
          WHERE name IN ('Leptos', 'Rust', 'Axum', 'SQLite', 'Tokio', 'Tracing', 'Refinery', 'Sqlx', 'Docker')),
         'https://github.com/The-Pac/portfolio-ssr'),
 
-       (2, 5, 'R6 Sound Visualizer',
+       (5, 'R6 Sound Visualizer',
         'Un outil de visualisation sonore spécialement conçu pour Rainbow Six Siege qui fournit un retour visuel sur les signaux audio tout en gérant les niveaux sonores afin d''éviter les dommages auditifs causés par les bruits soudains et forts.',
         (SELECT json_group_array(id) FROM technology WHERE name IN ('Three.Js', 'Node.js')),
         'https://github.com/The-Pac/R6_Sound_Visualization'),
 
-       (3, 5, 'Pac-Gif',
+       (5, 'Pac-Gif',
         'Pac-Gif est un projet test visant à créer un outil de capture GIF similaire à Gyazo à l''aide de Tauri, Rust et Svelte. Le projet en est encore à ses débuts et n''est pas encore terminé. Il présente actuellement quelques bugs liés au rendu des couleurs, mais il constitue un bon point de départ pour l''expérimentation et l''apprentissage.',
         (SELECT json_group_array(id) FROM technology WHERE name IN ('Svelte', 'Rust', 'Tauri', 'Vite', 'JavaScript')),
         'https://github.com/The-Pac/pac-gif'),
 
-       (4, 4, 'Superviseur',
+       ( 4, 'Superviseur',
         'Superviseur est un projet universitaire développé dans le cadre d''une licence. Le projet porte sur un robot qui suit ses mouvements dans le but de livrer des colis. Le système permet de surveiller la position du robot sur une carte, en fournissant des mises à jour en temps réel.',
         (SELECT json_group_array(id)
          FROM technology
          WHERE name IN ('Java', 'WebSocket', 'JavaScript', 'CSS', 'HTML5', 'Node.js', 'MySQL')),
         'https://github.com/The-Pac/Superviseur'),
 
-       (5, 4, 'Commande SAV Application',
+       ( 4, 'Commande SAV Application',
         'Commande SAV Application est un projet développé pendant mon stage dans le cadre de mon programme BTS. L''application a été conçue pour simplifier l''échange de commandes entre les techniciens et la secrétaire.',
         (SELECT json_group_array(id)
          FROM technology
          WHERE name IN ('Java', 'JavaScript', 'Sass', 'CSS', 'HTML5', 'Node.js', 'MySQL')),
         'https://github.com/The-Pac/Commande_SAV_Application'),
 
-       (6, 3, 'Chat box',
+       (3, 'Chat box',
         'Chat box est un projet test simple qui établit une connexion au chat Twitch d''un streamer à l''aide du protocole IRC (Internet Relay Chat). Développé en Java avec une interface JavaFX, ce projet montre comment se connecter au système de chat Twitch et effectuer une authentification OAuth de base.',
         (SELECT json_group_array(id) FROM technology WHERE name IN ('Java')),
         'https://github.com/The-Pac/Chat_box'),
 
-       (7, 4, 'Enerdis MEMO4',
+       ( 4, 'Enerdis MEMO4',
         'Il s''agit d''un projet scolaire réalisé par 4 étudiants pendant 4 mois. Le projet complet comprend un site web et une récupération de données via un script PHP via le réseau Things. Je n''ai réalisé que ma partie, qui est une application JavaFX.',
         (SELECT json_group_array(id) FROM technology WHERE name IN ('Java', 'SQLite')),
         'https://github.com/The-Pac/Enerdis_MEMO4')
@@ -242,5 +243,6 @@ VALUES (1, 'Bac', 2019, NULL, NULL, 1),
 INSERT INTO recommendation (logo_id, author, texte)
 VALUES (31, NULL, NULL),
        (32, NULL, NULL),
-       (33, NULL, NULL)
+       (33, NULL, NULL),
+       (52, NULL, NULL)
 ;

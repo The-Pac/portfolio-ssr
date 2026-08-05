@@ -7,7 +7,9 @@ use crate::components::svg_icon::SvgIcon;
 
 #[component]
 pub fn Project() -> impl IntoView {
-    stylance::import_style!(style, "style/project.module.scss");
+    stylance::import_style!(
+        #[allow(dead_code)]
+        style, "style/project.module.scss");
 
     let projects_resource: LocalResource<Result<Vec<models::project::Project>, ProjectError>> =
         LocalResource::new(|| async { crate::server::project::get_all_projects().await });
@@ -43,7 +45,9 @@ pub fn Project() -> impl IntoView {
 
 #[component]
 fn ProjectCard(project: models::project::Project) -> impl IntoView {
-    stylance::import_style!(style, "style/project_card.module.scss");
+    stylance::import_style!(
+        #[allow(dead_code)]
+        style, "style/project_card.module.scss");
     let is_flipped = RwSignal::new(false);
 
     let status_class = move |status| match status {
